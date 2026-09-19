@@ -25,6 +25,12 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  /** Drops a token the backend no longer accepts, so the user is sent back to login. */
+  clearSession(): void {
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.usernameKey);
+  }
+
   loadConfig(): Promise<void> {
     return this.http.get<ConfigResponse>(`${this.baseUrl}/config`).toPromise().then(response => {
       this.loginEnabled = response?.data?.loginEnabled ?? true;
