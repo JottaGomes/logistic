@@ -31,17 +31,17 @@ http://localhost:4200
 npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-12 specs. With coverage:
+31 specs. With coverage:
 
 ```bash
 npm test -- --watch=false --browsers=ChromeHeadless --code-coverage
 ```
 
 ```
-Statements   : 90.38% ( 47/52 )
-Branches     : 62.5%  ( 5/8 )
-Functions    : 86.36% ( 19/22 )
-Lines        : 90%    ( 45/50 )
+Statements   : 84.14% ( 138/164 )
+Branches     : 73.33% (  22/30 )
+Functions    : 72.46% (  50/69 )
+Lines        : 84.37% ( 135/160 )
 ```
 
 The HTML report lands in `coverage/`.
@@ -65,12 +65,18 @@ The `.html` sources are alongside them.
 models/       Shipment, AmountLine, ProfitCalculation, Page
 services/     ShipmentService (backend calls), AuthService (session)
 components/   calculation-result — presentational child, @Input in / @Output out
-pages/        calculate-profit (the use case), login, register
+pages/        calculate-profit (the use case), record-data (administration),
+              login, register
 guards/       authGuard
 interceptors/ authInterceptor — attaches the JWT to every request
 ```
 
-The screen is a parent/child pair on purpose: `CalculateProfitComponent` holds the
+**Two screens.** *Calculate Profit* is the use case under assessment. *Record Data*
+is what satisfies its pre-condition — customer payment and operational cost
+administration, from section 1.4 of the requirements — and is kept separate so the
+use case stays self-contained. `?shipment=SHP-...` opens it on one shipment.
+
+The calculation screen is a parent/child pair on purpose: `CalculateProfitComponent` holds the
 state and talks to the service; `CalculationResultComponent` only renders what it
 is handed and emits when dismissed.
 
@@ -93,5 +99,5 @@ the backend locally. Point `apiUrl` at a reachable host to change that.
 | Source code that builds and serves | this repository, `npm start` |
 | Model / Components / Service / Form / Routing | `src/app/...` |
 | Frontend question answers | [FRONTEND_QUESTIONS.md](FRONTEND_QUESTIONS.md) |
-| Jasmine unit tests (optional) | 12 specs, `npm test` |
-| Coverage report (optional) | `--code-coverage`, 90.38% statements |
+| Jasmine unit tests (optional) | 31 specs, `npm test` |
+| Coverage report (optional) | `--code-coverage`, 84.14% statements |

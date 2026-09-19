@@ -32,3 +32,17 @@ export interface Page<T> {
   number: number;
   size: number;
 }
+
+/** A shipment with everything recorded against it. */
+export interface ShipmentDetail {
+  id: number;
+  reference: string;
+  customer: string;
+  incomes: AmountLine[];
+  costs: AmountLine[];
+  totalIncome: number;
+  totalCosts: number;
+}
+
+export const INCOME_TYPES = ['CUSTOMER_PAYMENT', 'AGENT_INCOME'] as const;
+export const COST_TYPES = ['MAIN_CARRIAGE', 'HANDLING', 'CUSTOMS', 'OTHER'] as const;

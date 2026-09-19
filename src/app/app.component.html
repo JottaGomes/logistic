@@ -5,9 +5,13 @@
         <img src="assets/logo.png" alt="DACHSER Intelligent Logistics" />
       </div>
       <nav>
-        <a class="nav-item active">
+        <a class="nav-item" routerLink="/calculate-profit" routerLinkActive="active">
           <mat-icon>paid</mat-icon>
           Calculate Profit
+        </a>
+        <a class="nav-item" routerLink="/record-data" routerLinkActive="active">
+          <mat-icon>edit_note</mat-icon>
+          Record Data
         </a>
       </nav>
       @if (authService.loginEnabled) {

@@ -1,0 +1,180 @@
+.page-header h1 {
+  font-size: 1.4rem;
+  margin: 0 0 4px;
+}
+
+.page-header p {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.panel {
+  border: 1px solid #e4e4e4;
+  border-radius: 6px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  background: #fff;
+}
+
+.panel h2 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #777;
+  margin: 0 0 12px;
+}
+
+.inline-form,
+.amount-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.inline-form .grow,
+.amount-form .grow {
+  flex: 1 1 180px;
+}
+
+.amount-form .amount {
+  width: 130px;
+}
+
+.primary-btn {
+  background-color: #f5a800 !important;
+  color: #fff !important;
+  margin-top: 8px;
+}
+
+.primary-btn[disabled] {
+  opacity: 0.5;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  border: 1.5px solid #ddd;
+  background: #fff;
+  border-radius: 20px;
+  padding: 7px 14px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.chip:hover {
+  border-color: #bbb;
+}
+
+.chip.active {
+  border-color: #f5a800;
+  background: #fff8e8;
+  font-weight: 600;
+}
+
+.chip-customer {
+  display: block;
+  font-size: 0.72rem;
+  color: #888;
+  font-weight: 400;
+}
+
+.detail-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reference {
+  display: block;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.customer {
+  display: block;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.running {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.running strong {
+  font-variant-numeric: tabular-nums;
+  color: #333;
+}
+
+.hint {
+  font-size: 0.78rem;
+  color: #999;
+  margin: 8px 0 16px;
+}
+
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+}
+
+.column {
+  flex: 1 1 380px;
+}
+
+.column h3 {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  margin: 0 0 8px;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  align-items: baseline;
+  padding: 5px 0;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.line-description {
+  color: #aaa;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.line-amount {
+  font-variant-numeric: tabular-nums;
+}
+
+.empty {
+  color: #999;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.alert-success {
+  background: #e8f5e9;
+  border: 1px solid #c3e6c8;
+  color: #256029;
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+}

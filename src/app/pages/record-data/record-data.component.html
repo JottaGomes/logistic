@@ -1,0 +1,155 @@
+<div class="container py-4">
+
+  <header class="page-header">
+    <h1>Record Data</h1>
+    <p>Customer payments and operational costs. Calculate Profit reads what is recorded here.</p>
+  </header>
+
+  @if (errorMessage) {
+    <div class="alert alert-danger" role="alert">{{ errorMessage }}</div>
+  }
+  @if (successMessage) {
+    <div class="alert alert-success" role="status">{{ successMessage }}</div>
+  }
+
+  <section class="panel">
+    <h2>New shipment</h2>
+    <form [formGroup]="shipmentForm" (ngSubmit)="createShipment()" class="inline-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Reference</mat-label>
+        <input matInput formControlName="reference" placeholder="SHP-2026-0010" />
+        @if (shipmentForm.get('reference')?.hasError('required') && shipmentForm.get('reference')?.touched) {
+          <mat-error>A reference is required</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="grow">
+        <mat-label>Customer</mat-label>
+        <input matInput formControlName="customer" />
+        @if (shipmentForm.get('customer')?.hasError('required') && shipmentForm.get('customer')?.touched) {
+          <mat-error>A customer is required</mat-error>
+        }
+      </mat-form-field>
+
+      <button mat-raised-button class="primary-btn" type="submit" [disabled]="shipmentForm.invalid || saving">
+        Create
+      </button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Shipment</h2>
+    <div class="chips">
+      @for (shipment of shipments; track shipment.id) {
+        <button type="button" class="chip" [class.active]="selected?.reference === shipment.reference"
+                (click)="select(shipment.reference)">
+          {{ shipment.reference }}
+          <span class="chip-customer">{{ shipment.customer }}</span>
+        </button>
+      } @empty {
+        <p class="empty">No shipments yet — create one above.</p>
+      }
+    </div>
+  </section>
+
+  @if (selected; as detail) {
+    <section class="panel">
+      <div class="detail-head">
+        <div>
+          <span class="reference">{{ detail.reference }}</span>
+          <span class="customer">{{ detail.customer }}</span>
+        </div>
+        <div class="running">
+          <span>Income <strong>{{ detail.totalIncome | currency:'EUR' }}</strong></span>
+          <span>Costs <strong>{{ detail.totalCosts | currency:'EUR' }}</strong></span>
+          <button mat-raised-button class="primary-btn" type="button" (click)="goCalculate()">
+            Calculate profit
+          </button>
+        </div>
+      </div>
+      <p class="hint">
+        The figures above are a running preview. Nothing is stored as a result until
+        Calculate Profit is run.
+      </p>
+
+      <div class="columns">
+
+        <div class="column">
+          <h3>Income</h3>
+          <form [formGroup]="incomeForm" (ngSubmit)="addIncome()" class="amount-form">
+            <mat-form-field appearance="outline">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="type">
+                @for (type of incomeTypes; track type) {
+                  <mat-option [value]="type">{{ label(type) }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="amount">
+              <mat-label>Amount</mat-label>
+              <input matInput type="number" formControlName="amount" min="0" step="0.01" />
+              @if (incomeForm.get('amount')?.hasError('min')) {
+                <mat-error>Must not be negative</mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="grow">
+              <mat-label>Description</mat-label>
+              <input matInput formControlName="description" />
+            </mat-form-field>
+            <button mat-icon-button type="submit" [disabled]="incomeForm.invalid || saving" aria-label="Add income">
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </form>
+
+          @for (line of detail.incomes; track line.id) {
+            <div class="line">
+              <span class="line-type">{{ label(line.type) }}</span>
+              <span class="line-description">{{ line.description }}</span>
+              <span class="line-amount">{{ line.amount | currency:'EUR' }}</span>
+            </div>
+          } @empty {
+            <p class="empty">Nothing recorded yet.</p>
+          }
+        </div>
+
+        <div class="column">
+          <h3>Costs</h3>
+          <form [formGroup]="costForm" (ngSubmit)="addCost()" class="amount-form">
+            <mat-form-field appearance="outline">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="type">
+                @for (type of costTypes; track type) {
+                  <mat-option [value]="type">{{ label(type) }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="amount">
+              <mat-label>Amount</mat-label>
+              <input matInput type="number" formControlName="amount" min="0" step="0.01" />
+              @if (costForm.get('amount')?.hasError('min')) {
+                <mat-error>Must not be negative</mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="grow">
+              <mat-label>Description</mat-label>
+              <input matInput formControlName="description" />
+            </mat-form-field>
+            <button mat-icon-button type="submit" [disabled]="costForm.invalid || saving" aria-label="Add cost">
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </form>
+
+          @for (line of detail.costs; track line.id) {
+            <div class="line">
+              <span class="line-type">{{ label(line.type) }}</span>
+              <span class="line-description">{{ line.description }}</span>
+              <span class="line-amount">{{ line.amount | currency:'EUR' }}</span>
+            </div>
+          } @empty {
+            <p class="empty">Nothing recorded yet.</p>
+          }
+        </div>
+      </div>
+    </section>
+  }
+</div>
