@@ -1,0 +1,58 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_style.css"></head><body>
+<div class="frame">
+  <div class="caption">Calculate Profit — 2. Result returned</div>
+  <div class="shell">
+    <div class="sidebar">
+      <div class="logo">[ DACHSER logo ]</div>
+      <div class="nav"><div class="nav-item">◉ Calculate Profit</div></div>
+      <div class="sidebar-foot">joao &nbsp; ⎋ logout</div>
+    </div>
+    <div class="main">
+      <h1>Calculate Profit</h1>
+      <div class="sub">Evaluate the income and costs recorded against a shipment.</div>
+      <div class="row">
+        <div class="field">
+          <div class="label">SHIPMENT</div>
+          <div class="input"><span>SHP-2026-0001 — Sonae Distribuicao</span><span class="chev">▾</span></div>
+        </div>
+        <div style="padding-top:17px"><div class="btn">Calculate</div></div>
+      </div>
+
+      <div class="result">
+        <div class="result-head">
+          <div><div class="ref">SHP-2026-0001</div><div class="cust">Sonae Distribuicao</div></div>
+          <div style="color:#999">✕</div>
+        </div>
+        <div class="totals">
+          <div class="tot"><div class="k">Total Income</div><div class="v">€5,300.00</div></div>
+          <div class="tot"><div class="k">Total Costs</div><div class="v">€3,200.00</div></div>
+          <div class="tot big"><div class="k">Profit</div><div class="v profit">€2,100.00</div></div>
+        </div>
+        <div class="breakdown">
+          <div class="col">
+            <h4>Income</h4>
+            <div class="line"><span>Customer Payment</span><span class="d">Main carriage invoice</span><span>€4,200.00</span></div>
+            <div class="line"><span>Customer Payment</span><span class="d">Fuel surcharge</span><span>€800.00</span></div>
+            <div class="line"><span>Agent Income</span><span class="d">Destination agent share</span><span>€300.00</span></div>
+          </div>
+          <div class="col">
+            <h4>Costs</h4>
+            <div class="line"><span>Main Carriage</span><span class="d">Line haul</span><span>€3,000.00</span></div>
+            <div class="line"><span>Handling</span><span class="d">Terminal handling</span><span>€200.00</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:10px">
+        <span class="annot">Child component &lt;app-calculation-result&gt; — @Input() calculation in, @Output() dismissed out</span>
+      </div>
+      <div style="margin-top:8px">
+        <span class="annot">Breakdown shows WHY: agent income counts towards total income, per the use case</span>
+      </div>
+    </div>
+  </div>
+  <div class="notes">
+    <b>Flow:</b> the result is stored before it is shown (step 5) and then returned to the Finance Department (step 6).
+    The history table below refreshes so the new row appears first.
+  </div>
+</div>
+</body></html>

@@ -1,6 +1,47 @@
-.shipment-id {
-  font-size: 1rem;
-  margin-bottom: 1rem;
+.page-header h1 {
+  font-size: 1.4rem;
+  margin: 0 0 4px;
+}
+
+.page-header p {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+}
+
+.calculate-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.shipment-field {
+  flex: 1 1 360px;
+  max-width: 480px;
+}
+
+.calculate-btn {
+  background-color: #f5a800 !important;
+  color: #fff !important;
+  margin-top: 8px;
+}
+
+.calculate-btn[disabled] {
+  opacity: 0.5;
+}
+
+.history-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #777;
+  margin: 32px 0 8px;
+}
+
+.numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .profit {
@@ -13,12 +54,19 @@
   font-weight: 500;
 }
 
+.empty-row {
+  padding: 24px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
 ::ng-deep .mat-mdc-header-row {
-  background-color: #f5a800 !important;
+  background-color: #f5a800;
 }
 
 ::ng-deep .mat-mdc-header-cell {
-  color: #fff !important;
+  color: #fff;
   font-weight: 600;
 }
 
@@ -28,6 +76,6 @@
 
 @media (max-width: 767px) {
   .table-wrapper table {
-    min-width: 500px;
+    min-width: 700px;
   }
 }

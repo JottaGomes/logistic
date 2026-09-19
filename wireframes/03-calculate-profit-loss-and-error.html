@@ -1,0 +1,57 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_style.css"></head><body>
+<div class="frame">
+  <div class="caption">Calculate Profit — 3. Loss result, and the error flow</div>
+  <div class="shell">
+    <div class="sidebar">
+      <div class="logo">[ DACHSER logo ]</div>
+      <div class="nav"><div class="nav-item">◉ Calculate Profit</div></div>
+      <div class="sidebar-foot">joao &nbsp; ⎋ logout</div>
+    </div>
+    <div class="main">
+      <h1>Calculate Profit</h1>
+      <div class="sub">Evaluate the income and costs recorded against a shipment.</div>
+      <div class="row">
+        <div class="field">
+          <div class="label">SHIPMENT</div>
+          <div class="input"><span>SHP-2026-0004 — Renault Cacia</span><span class="chev">▾</span></div>
+        </div>
+        <div style="padding-top:17px"><div class="btn">Calculate</div></div>
+      </div>
+
+      <div class="result is-loss">
+        <div class="result-head">
+          <div><div class="ref">SHP-2026-0004</div><div class="cust">Renault Cacia</div></div>
+          <div style="color:#999">✕</div>
+        </div>
+        <div class="totals">
+          <div class="tot"><div class="k">Total Income</div><div class="v">€3,000.00</div></div>
+          <div class="tot"><div class="k">Total Costs</div><div class="v">€4,500.00</div></div>
+          <div class="tot big"><div class="k">Loss</div><div class="v loss">−€1,500.00</div></div>
+        </div>
+        <div class="breakdown">
+          <div class="col">
+            <h4>Income</h4>
+            <div class="line"><span>Customer Payment</span><span class="d">Main carriage invoice</span><span>€3,000.00</span></div>
+          </div>
+          <div class="col">
+            <h4>Costs</h4>
+            <div class="line"><span>Main Carriage</span><span class="d">Line haul</span><span>€4,000.00</span></div>
+            <div class="line"><span>Handling</span><span class="d">Terminal handling</span><span>€500.00</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:10px"><span class="annot">Loss is signalled by colour AND by the word "Loss" — never colour alone</span></div>
+
+      <h2>Alternative flow I — data retrieval error</h2>
+      <div class="alert">⚠ No shipment found with reference SHP-2026-9999</div>
+      <div style="margin-top:8px"><span class="annot">Backend logs the failure and returns 404; the user can retry or fix the data</span></div>
+      <div class="alert" style="margin-top:12px">⚠ Could not reach the server. Check that the backend is running.</div>
+      <div style="margin-top:8px"><span class="annot">HTTP status 0 gets its own message instead of a blank error</span></div>
+    </div>
+  </div>
+  <div class="notes">
+    <b>Flow:</b> a loss renders identically to a profit, only the sign, colour and label change — the Finance Department
+    reads both the same way. Errors never replace the page, so the chosen shipment survives a retry.
+  </div>
+</div>
+</body></html>

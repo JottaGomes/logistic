@@ -1,0 +1,55 @@
+<div class="result-card" [class.profit]="isProfit" [class.loss]="!isProfit">
+
+  <div class="result-header">
+    <div>
+      <span class="reference">{{ calculation.shipmentReference }}</span>
+      <span class="customer">{{ calculation.customer }}</span>
+    </div>
+    <button mat-icon-button type="button" aria-label="Dismiss" (click)="dismissed.emit()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="totals">
+    <div class="total">
+      <span class="label">Total Income</span>
+      <span class="value">{{ calculation.totalIncome | currency:'EUR' }}</span>
+    </div>
+    <div class="total">
+      <span class="label">Total Costs</span>
+      <span class="value">{{ calculation.totalCosts | currency:'EUR' }}</span>
+    </div>
+    <div class="total headline">
+      <span class="label">{{ isProfit ? 'Profit' : 'Loss' }}</span>
+      <span class="value">{{ calculation.profitOrLoss | currency:'EUR' }}</span>
+    </div>
+  </div>
+
+  <div class="breakdown">
+    <div class="breakdown-column">
+      <h4>Income</h4>
+      @for (line of calculation.incomes; track line.id) {
+        <div class="line">
+          <span class="line-type">{{ line.type.replace('_', ' ') | titlecase }}</span>
+          <span class="line-description">{{ line.description }}</span>
+          <span class="line-amount">{{ line.amount | currency:'EUR' }}</span>
+        </div>
+      } @empty {
+        <p class="empty">No income recorded</p>
+      }
+    </div>
+
+    <div class="breakdown-column">
+      <h4>Costs</h4>
+      @for (line of calculation.costs; track line.id) {
+        <div class="line">
+          <span class="line-type">{{ line.type.replace('_', ' ') | titlecase }}</span>
+          <span class="line-description">{{ line.description }}</span>
+          <span class="line-amount">{{ line.amount | currency:'EUR' }}</span>
+        </div>
+      } @empty {
+        <p class="empty">No costs recorded</p>
+      }
+    </div>
+  </div>
+</div>

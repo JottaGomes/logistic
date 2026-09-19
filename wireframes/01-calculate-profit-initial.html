@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_style.css"></head><body>
+<div class="frame">
+  <div class="caption">Calculate Profit — 1. Initial state</div>
+  <div class="shell">
+    <div class="sidebar">
+      <div class="logo">[ DACHSER logo ]</div>
+      <div class="nav"><div class="nav-item">◉ Calculate Profit</div></div>
+      <div class="sidebar-foot">joao &nbsp; ⎋ logout</div>
+    </div>
+    <div class="main">
+      <h1>Calculate Profit</h1>
+      <div class="sub">Evaluate the income and costs recorded against a shipment.</div>
+      <div class="row">
+        <div class="field">
+          <div class="label">SHIPMENT</div>
+          <div class="input"><span style="color:#aaa">Select a shipment…</span><span class="chev">▾</span></div>
+        </div>
+        <div style="padding-top:17px"><div class="btn" style="opacity:.45">Calculate</div></div>
+      </div>
+      <div style="margin-top:10px"><span class="annot">Button disabled until a shipment is chosen (form validation)</span></div>
+      <h2>Previous calculations</h2>
+      <table>
+        <tr><th>Shipment</th><th>Customer</th><th class="num">Total Income</th><th class="num">Total Costs</th><th class="num">Profit or Loss</th><th>Calculated</th></tr>
+        <tr><td>SHP-2026-0001</td><td>Sonae Distribuicao</td><td class="num">€5,300.00</td><td class="num">€3,200.00</td><td class="num profit">€2,100.00</td><td>19/09/2026 10:47</td></tr>
+        <tr><td>SHP-2026-0002</td><td>Continental Mabor</td><td class="num">€2,650.00</td><td class="num">€2,000.00</td><td class="num profit">€650.00</td><td>19/09/2026 10:31</td></tr>
+        <tr><td>SHP-2026-0003</td><td>Bosch Termotecnologia</td><td class="num">€1,800.00</td><td class="num">€2,350.00</td><td class="num loss">−€550.00</td><td>19/09/2026 10:28</td></tr>
+        <tr><td>SHP-2026-0004</td><td>Renault Cacia</td><td class="num">€3,000.00</td><td class="num">€4,500.00</td><td class="num loss">−€1,500.00</td><td>19/09/2026 10:12</td></tr>
+      </table>
+      <div class="pager">Items per page: 10 ▾ &nbsp; 1 – 4 of 4 &nbsp; ‹ &nbsp; ›</div>
+      <div style="margin-top:10px"><span class="annot">Server-side pagination — the table never loads the whole history</span></div>
+    </div>
+  </div>
+  <div class="notes">
+    <b>Flow:</b> the Finance Department picks a shipment and requests the calculation (use case step 1).
+    Amounts are never typed here — they are already recorded against the shipment, and the backend sums them (steps 2–4).
+  </div>
+</div>
+</body></html>
