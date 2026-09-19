@@ -28,6 +28,10 @@ export class AuthService {
   loadConfig(): Promise<void> {
     return this.http.get<ConfigResponse>(`${this.baseUrl}/config`).toPromise().then(response => {
       this.loginEnabled = response?.data?.loginEnabled ?? true;
+    }).catch(() => {
+      // backend unreachable: still boot the app, and require login rather than
+      // silently exposing the authenticated screens
+      this.loginEnabled = true;
     });
   }
 
