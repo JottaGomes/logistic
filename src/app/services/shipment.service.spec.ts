@@ -21,15 +21,26 @@ describe('ShipmentService', () => {
 
   afterEach(() => http.verify());
 
-  it('unwraps the envelope when listing shipments', () => {
+  it('unwraps the envelope when listing shipments, and always bounds the request', () => {
     let result: unknown;
     service.findShipments().subscribe(shipments => (result = shipments));
 
-    const request = http.expectOne(baseUrl);
+    const request = http.expectOne(r => r.url === baseUrl);
     expect(request.request.method).toBe('GET');
+    expect(request.request.params.get('limit')).toBe('20');
+    expect(request.request.params.has('search')).toBeFalse();
     request.flush({ success: true, message: null, data: [{ id: 1, reference: 'SHP-1', customer: 'ACME' }] });
 
     expect(result).toEqual([{ id: 1, reference: 'SHP-1', customer: 'ACME' }]);
+  });
+
+  it('sends the search term when narrowing the shipment list', () => {
+    service.findShipments('  sonae  ', 5).subscribe();
+
+    const request = http.expectOne(r => r.url === baseUrl);
+    expect(request.request.params.get('search')).toBe('sonae');
+    expect(request.request.params.get('limit')).toBe('5');
+    request.flush({ success: true, message: null, data: [] });
   });
 
   it('posts only the shipment reference to calculate', () => {

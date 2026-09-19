@@ -6,13 +6,19 @@
     <form [formGroup]="form" (ngSubmit)="onCalculate()" class="calculate-form">
       <mat-form-field appearance="outline" subscriptSizing="dynamic" class="shipment-field">
         <mat-label>Shipment</mat-label>
-        <mat-select formControlName="shipmentReference">
+        <input matInput formControlName="shipmentReference"
+               [matAutocomplete]="auto"
+               placeholder="Type a reference or a customer" />
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayShipment">
           @for (shipment of shipments; track shipment.id) {
             <mat-option [value]="shipment.reference">
-              {{ shipment.reference }} — {{ shipment.customer }}
+              <span class="option-ref">{{ shipment.reference }}</span>
+              <span class="option-customer">{{ shipment.customer }}</span>
             </mat-option>
+          } @empty {
+            <mat-option disabled>No shipment matches</mat-option>
           }
-        </mat-select>
+        </mat-autocomplete>
         @if (form.get('shipmentReference')?.hasError('required') && form.get('shipmentReference')?.touched) {
           <mat-error>Pick a shipment to evaluate</mat-error>
         }

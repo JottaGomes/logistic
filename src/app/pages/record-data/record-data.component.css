@@ -199,3 +199,28 @@
   font-size: 0.85rem;
   margin-bottom: 14px;
 }
+
+.panel-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.panel-head h2 {
+  margin: 0;
+}
+
+.shipment-search {
+  width: 300px;
+}
+
+.shipment-search mat-icon[matPrefix] {
+  margin-right: 6px;
+  color: var(--text-faint);
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}

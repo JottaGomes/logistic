@@ -35,7 +35,7 @@ http://localhost:4200
 npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-36 specs. With coverage:
+37 specs. With coverage:
 
 ```bash
 npm test -- --watch=false --browsers=ChromeHeadless --code-coverage
@@ -82,6 +82,11 @@ navy is the dominant colour and yellow the accent, which is why primary buttons
 are navy and yellow is kept for the logo field and the active navigation marker. Tables run at back-office density (38px header, 40px rows),
 numbers are right-aligned with tabular figures, and profit and loss are coloured.
 
+**Scale.** Neither screen holds the shipment list. The backend hands out a
+bounded, searchable slice, so both the dropdown and the chip list are typeaheads
+that query as you type — at the 10,000 shipments a day the requirements ask for,
+the full list is neither sendable nor selectable.
+
 **Two screens.** *Calculate Profit* is the use case under assessment. *Record Data*
 is what satisfies its pre-condition — customer payment and operational cost
 administration, from section 1.4 of the requirements — and is kept separate so the
@@ -110,5 +115,5 @@ the backend locally. Point `apiUrl` at a reachable host to change that.
 | Source code that builds and serves | this repository, `npm start` |
 | Model / Components / Service / Form / Routing | `src/app/...` |
 | Frontend question answers | [FRONTEND_QUESTIONS.md](FRONTEND_QUESTIONS.md) |
-| Jasmine unit tests (optional) | 36 specs, `npm test` |
+| Jasmine unit tests (optional) | 37 specs, `npm test` |
 | Coverage report (optional) | `--code-coverage`, 84.49% statements |

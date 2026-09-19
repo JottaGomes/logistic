@@ -108,3 +108,13 @@ table {
     width: 100%;
   }
 }
+
+.option-ref {
+  font-weight: 600;
+}
+
+.option-customer {
+  color: var(--text-muted);
+  margin-left: 10px;
+  font-size: 12px;
+}

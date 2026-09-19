@@ -23,9 +23,22 @@ export class ShipmentService {
 
   constructor(private http: HttpClient) {}
 
-  /** The shipments available to evaluate. */
-  findShipments(): Observable<Shipment[]> {
-    return this.http.get<ApiResponse<Shipment[]>>(this.baseUrl).pipe(map(res => res.data));
+  /**
+   * Shipments available to evaluate: a bounded, searchable slice. The backend
+   * refuses to return the whole table, so the UI must narrow rather than filter
+   * a list it already holds.
+   */
+  findShipments(search = '', limit = 20): Observable<Shipment[]> {
+
+    const params: Record<string, string> = { limit: limit.toString() };
+
+    if (search.trim()) {
+      params['search'] = search.trim();
+    }
+
+    return this.http
+      .get<ApiResponse<Shipment[]>>(this.baseUrl, { params })
+      .pipe(map(res => res.data));
   }
 
   /** Everything recorded against one shipment. */

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ShipmentService } from '../../services/shipment.service';
 import { COST_TYPES, INCOME_TYPES, Shipment, ShipmentDetail } from '../../models/shipment.model';
 
@@ -43,6 +44,7 @@ export class RecordDataComponent implements OnInit {
   costForm: FormGroup;
 
   shipments: Shipment[] = [];
+  shipmentSearch = new FormControl('');
   selected: ShipmentDetail | null = null;
 
   errorMessage = '';
@@ -75,6 +77,12 @@ export class RecordDataComponent implements OnInit {
   ngOnInit(): void {
     this.loadShipments();
 
+    // same reason as the other screen: the backend hands out a bounded slice,
+    // so narrowing has to happen there rather than over a list held here
+    this.shipmentSearch.valueChanges
+      .pipe(debounceTime(250), distinctUntilChanged())
+      .subscribe(term => this.loadShipments(term ?? ''));
+
     // ?shipment=SHP-... opens straight on that shipment, so a link can point at one
     const reference = this.route.snapshot.queryParamMap.get('shipment');
 
@@ -83,8 +91,8 @@ export class RecordDataComponent implements OnInit {
     }
   }
 
-  loadShipments(): void {
-    this.shipmentService.findShipments().subscribe({
+  loadShipments(term = ''): void {
+    this.shipmentService.findShipments(term).subscribe({
       next: shipments => {
         this.shipments = shipments;
 

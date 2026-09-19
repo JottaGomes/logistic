@@ -37,7 +37,13 @@
   </section>
 
   <section class="panel">
-    <h2>Shipment</h2>
+    <header class="panel-head">
+      <h2>Shipment</h2>
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="shipment-search">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput [formControl]="shipmentSearch" placeholder="Find a shipment or customer" />
+      </mat-form-field>
+    </header>
     <div class="chips">
       @for (shipment of shipments; track shipment.id) {
         <button type="button" class="chip" [class.active]="selected?.reference === shipment.reference"
@@ -46,7 +52,11 @@
           <span class="chip-customer">{{ shipment.customer }}</span>
         </button>
       } @empty {
-        <p class="empty">No shipments yet — create one above.</p>
+        @if (shipmentSearch.value) {
+          <p class="empty">Nothing matches “{{ shipmentSearch.value }}”.</p>
+        } @else {
+          <p class="empty">No shipments yet — create one above.</p>
+        }
       }
     </div>
   </section>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
@@ -29,7 +29,7 @@ import { CalculationResultComponent } from '../../components/calculation-result/
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
+    MatAutocompleteModule,
     MatButtonModule,
     MatIconModule,
     MatTableModule,
@@ -74,6 +74,12 @@ export class CalculateProfitComponent implements OnInit {
     this.loadShipments();
     this.loadCalculations();
 
+    // the shipment list is a server-side search, not a filter over a list we hold:
+    // at 10,000 shipments the whole table is neither sendable nor selectable
+    this.form.get('shipmentReference')!.valueChanges
+      .pipe(debounceTime(250), distinctUntilChanged())
+      .subscribe(term => this.loadShipments(term ?? ''));
+
     // wait for a pause in typing, so one search is not eight requests
     this.search.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged())
@@ -83,15 +89,15 @@ export class CalculateProfitComponent implements OnInit {
       });
   }
 
-  loadShipments(): void {
-    this.shipmentService.findShipments().subscribe({
+  loadShipments(term = ''): void {
+    this.shipmentService.findShipments(term).subscribe({
       next: shipments => {
         this.shipments = shipments;
 
         // land on a usable form rather than an empty one; the user changes it in
         // one click, and nothing is calculated until they ask for it
         if (shipments.length && !this.form.value.shipmentReference) {
-          this.form.patchValue({ shipmentReference: shipments[0].reference });
+          this.form.patchValue({ shipmentReference: shipments[0].reference }, { emitEvent: false });
         }
       },
       error: error => (this.errorMessage = this.describe(error, 'Could not load the shipments')),
@@ -138,6 +144,11 @@ export class CalculateProfitComponent implements OnInit {
 
   clearSearch(): void {
     this.search.setValue('');
+  }
+
+  /** What the autocomplete writes into the input once an option is chosen. */
+  displayShipment(reference: string): string {
+    return reference ?? '';
   }
 
   onCalculate(): void {
