@@ -49,6 +49,11 @@ describe('RecordDataComponent', () => {
     expect(component.shipments).toEqual(shipments);
   });
 
+  it('opens on the first shipment instead of an empty page', () => {
+    expect(service.findShipment).toHaveBeenCalledWith('SHP-1');
+    expect(component.selected).toEqual(detail);
+  });
+
   it('will not create a shipment without a reference and a customer', () => {
     expect(component.shipmentForm.invalid).toBeTrue();
 

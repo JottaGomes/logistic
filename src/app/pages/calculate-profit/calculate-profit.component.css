@@ -49,7 +49,7 @@
 /* Aligned to the field beside it, not to the text baseline it used to sit above. */
 .primary-btn {
   height: 40px;
-  background: var(--brand) !important;
+  background: var(--navy) !important;
   color: #fff !important;
   font-weight: 600;
 }

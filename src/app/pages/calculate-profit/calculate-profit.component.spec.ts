@@ -48,7 +48,13 @@ describe('CalculateProfitComponent', () => {
     expect(component.shipments).toEqual(shipments);
   });
 
+  it('opens on the first shipment, so the form is usable straight away', () => {
+    expect(component.form.value.shipmentReference).toBe('SHP-1');
+  });
+
   it('requires a shipment before it will calculate', () => {
+    component.form.setValue({ shipmentReference: '' });
+
     expect(component.form.invalid).toBeTrue();
 
     component.onCalculate();

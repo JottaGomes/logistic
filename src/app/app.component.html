@@ -1,10 +1,30 @@
 @if (!isAuthPage) {
   <div class="app-shell">
 
-    <aside class="sidebar">
-      <div class="brand">
+    <header class="topbar">
+      <a class="brand" routerLink="/calculate-profit" aria-label="DACHSER home">
         <img src="assets/logo.png" alt="DACHSER Intelligent Logistics" />
+      </a>
+      <div class="topbar-title">
+        <span class="app-name">Income &amp; Cost Evaluation</span>
+        <h1>{{ pageTitle }}</h1>
       </div>
+      <div class="topbar-right">
+        @if (authService.loginEnabled) {
+          <span class="user">
+            <mat-icon>account_circle</mat-icon>
+            {{ authService.getUsername() }}
+          </span>
+          <button mat-icon-button (click)="logout()" title="Log out" aria-label="Log out">
+            <mat-icon>logout</mat-icon>
+          </button>
+        } @else {
+          <span class="badge">Authentication off</span>
+        }
+      </div>
+    </header>
+
+    <aside class="sidebar">
       <nav>
         <a class="nav-item" routerLink="/calculate-profit" routerLinkActive="active">
           <mat-icon>paid</mat-icon>
@@ -15,31 +35,11 @@
           <span>Record Data</span>
         </a>
       </nav>
-      <div class="sidebar-foot">Income &amp; Cost Evaluation</div>
     </aside>
 
-    <div class="main">
-      <header class="topbar">
-        <h1>{{ pageTitle }}</h1>
-        <div class="topbar-right">
-          @if (authService.loginEnabled) {
-            <span class="user">
-              <mat-icon>account_circle</mat-icon>
-              {{ authService.getUsername() }}
-            </span>
-            <button mat-icon-button (click)="logout()" title="Log out" aria-label="Log out">
-              <mat-icon>logout</mat-icon>
-            </button>
-          } @else {
-            <span class="badge">Authentication off</span>
-          }
-        </div>
-      </header>
-
-      <main class="content">
-        <router-outlet />
-      </main>
-    </div>
+    <main class="content">
+      <router-outlet />
+    </main>
   </div>
 } @else {
   <router-outlet />

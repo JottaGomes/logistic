@@ -62,7 +62,7 @@
 }
 
 .primary-btn {
-  background: var(--brand) !important;
+  background: var(--navy) !important;
   color: #fff !important;
   height: 40px;
   font-weight: 600;
@@ -93,8 +93,9 @@
 }
 
 .chip.active {
-  border-color: #f5a800;
-  background: #fff8e8;
+  border-color: var(--navy);
+  background: #eef1fa;
+  color: var(--navy);
   font-weight: 600;
 }
 

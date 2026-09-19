@@ -85,7 +85,15 @@ export class CalculateProfitComponent implements OnInit {
 
   loadShipments(): void {
     this.shipmentService.findShipments().subscribe({
-      next: shipments => (this.shipments = shipments),
+      next: shipments => {
+        this.shipments = shipments;
+
+        // land on a usable form rather than an empty one; the user changes it in
+        // one click, and nothing is calculated until they ask for it
+        if (shipments.length && !this.form.value.shipmentReference) {
+          this.form.patchValue({ shipmentReference: shipments[0].reference });
+        }
+      },
       error: error => (this.errorMessage = this.describe(error, 'Could not load the shipments')),
     });
   }

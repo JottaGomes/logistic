@@ -85,7 +85,13 @@ export class RecordDataComponent implements OnInit {
 
   loadShipments(): void {
     this.shipmentService.findShipments().subscribe({
-      next: shipments => (this.shipments = shipments),
+      next: shipments => {
+        this.shipments = shipments;
+
+        if (shipments.length && !this.selected) {
+          this.select(shipments[0].reference);
+        }
+      },
       error: error => (this.errorMessage = this.describe(error, 'Could not load the shipments')),
     });
   }

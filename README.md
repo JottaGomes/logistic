@@ -35,17 +35,17 @@ http://localhost:4200
 npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-34 specs. With coverage:
+36 specs. With coverage:
 
 ```bash
 npm test -- --watch=false --browsers=ChromeHeadless --code-coverage
 ```
 
 ```
-Statements   : 83.06% ( 152/183 )
-Branches     : 75.00% (  30/40 )
-Functions    : 71.23% (  52/73 )
-Lines        : 83.24% ( 149/179 )
+Statements   : 84.49% ( 158/187 )
+Branches     : 78.26% (  36/46 )
+Functions    : 73.97% (  54/73 )
+Lines        : 84.15% ( 154/183 )
 ```
 
 The HTML report lands in `coverage/`.
@@ -61,8 +61,8 @@ implementation:
 | `02-calculate-profit-result.png` | a profit, with its income and cost breakdown |
 | `03-calculate-profit-loss-and-error.png` | a loss, and both error states |
 
-The `.html` sources are alongside them. They are the prototypes drawn before the
-implementation, so they show the intended structure rather than the final styling.
+The `.html` sources are alongside them. They show the intended structure and
+states; the styling is indicative rather than pixel-accurate.
 
 ## Structure
 
@@ -76,8 +76,10 @@ guards/       authGuard
 interceptors/ authInterceptor — attaches the JWT to every request
 ```
 
-**Shell.** A top bar carries the page title and the signed-in user; the sidebar is
-brand plus navigation. Tables run at back-office density (38px header, 40px rows),
+**Shell.** A full-width navy top bar carries the logo, the page title and the
+signed-in user, with the sidebar beneath it. The palette follows dachser.com:
+navy is the dominant colour and yellow the accent, which is why primary buttons
+are navy and yellow is kept for the logo field and the active navigation marker. Tables run at back-office density (38px header, 40px rows),
 numbers are right-aligned with tabular figures, and profit and loss are coloured.
 
 **Two screens.** *Calculate Profit* is the use case under assessment. *Record Data*
@@ -108,5 +110,5 @@ the backend locally. Point `apiUrl` at a reachable host to change that.
 | Source code that builds and serves | this repository, `npm start` |
 | Model / Components / Service / Form / Routing | `src/app/...` |
 | Frontend question answers | [FRONTEND_QUESTIONS.md](FRONTEND_QUESTIONS.md) |
-| Jasmine unit tests (optional) | 34 specs, `npm test` |
-| Coverage report (optional) | `--code-coverage`, 83.06% statements |
+| Jasmine unit tests (optional) | 36 specs, `npm test` |
+| Coverage report (optional) | `--code-coverage`, 84.49% statements |
