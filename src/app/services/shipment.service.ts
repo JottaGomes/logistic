@@ -63,12 +63,32 @@ export class ShipmentService {
       .pipe(map(res => res.data));
   }
 
-  /** Previously stored calculations, most recent first. */
-  findCalculations(page = 0, size = 10): Observable<Page<ProfitCalculation>> {
+  /**
+   * Previously stored calculations. Paging, sorting and filtering all happen on
+   * the server: only one page is ever in the browser, so doing any of them here
+   * would quietly operate on a fraction of the data.
+   */
+  findCalculations(
+    page = 0,
+    size = 10,
+    sort = 'calculatedAt',
+    direction: 'asc' | 'desc' = 'desc',
+    search = '',
+  ): Observable<Page<ProfitCalculation>> {
+
+    const params: Record<string, string> = {
+      page: page.toString(),
+      size: size.toString(),
+      sort,
+      direction,
+    };
+
+    if (search.trim()) {
+      params['search'] = search.trim();
+    }
+
     return this.http
-      .get<ApiResponse<Page<ProfitCalculation>>>(`${this.baseUrl}/calculations`, {
-        params: { page: page.toString(), size: size.toString() },
-      })
+      .get<ApiResponse<Page<ProfitCalculation>>>(`${this.baseUrl}/calculations`, { params })
       .pipe(map(res => res.data));
   }
 }

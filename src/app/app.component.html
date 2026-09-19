@@ -1,31 +1,45 @@
 @if (!isAuthPage) {
   <div class="app-shell">
+
     <aside class="sidebar">
-      <div class="logo-area">
+      <div class="brand">
         <img src="assets/logo.png" alt="DACHSER Intelligent Logistics" />
       </div>
       <nav>
         <a class="nav-item" routerLink="/calculate-profit" routerLinkActive="active">
           <mat-icon>paid</mat-icon>
-          Calculate Profit
+          <span>Calculate Profit</span>
         </a>
         <a class="nav-item" routerLink="/record-data" routerLinkActive="active">
           <mat-icon>edit_note</mat-icon>
-          Record Data
+          <span>Record Data</span>
         </a>
       </nav>
-      @if (authService.loginEnabled) {
-        <div class="sidebar-footer">
-          <span class="username-label">{{ authService.getUsername() }}</span>
-          <button mat-icon-button (click)="logout()" title="Logout">
-            <mat-icon>logout</mat-icon>
-          </button>
-        </div>
-      }
+      <div class="sidebar-foot">Income &amp; Cost Evaluation</div>
     </aside>
-    <main class="main-content">
-      <router-outlet />
-    </main>
+
+    <div class="main">
+      <header class="topbar">
+        <h1>{{ pageTitle }}</h1>
+        <div class="topbar-right">
+          @if (authService.loginEnabled) {
+            <span class="user">
+              <mat-icon>account_circle</mat-icon>
+              {{ authService.getUsername() }}
+            </span>
+            <button mat-icon-button (click)="logout()" title="Log out" aria-label="Log out">
+              <mat-icon>logout</mat-icon>
+            </button>
+          } @else {
+            <span class="badge">Authentication off</span>
+          }
+        </div>
+      </header>
+
+      <main class="content">
+        <router-outlet />
+      </main>
+    </div>
   </div>
 } @else {
   <router-outlet />

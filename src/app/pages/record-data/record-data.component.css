@@ -1,27 +1,27 @@
-.page-header h1 {
-  font-size: 1.4rem;
-  margin: 0 0 4px;
+.page {
+  max-width: 1280px;
 }
 
-.page-header p {
-  color: #666;
-  font-size: 0.9rem;
-  margin-bottom: 20px;
+.page-sub {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 0 0 16px;
 }
 
 .panel {
-  border: 1px solid #e4e4e4;
-  border-radius: 6px;
-  padding: 18px 20px;
-  margin-bottom: 20px;
-  background: #fff;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px 18px;
+  margin-bottom: 16px;
 }
 
 .panel h2 {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #777;
+  color: var(--text-muted);
   margin: 0 0 12px;
 }
 
@@ -29,8 +29,22 @@
 .amount-form {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.add-btn {
+  height: 40px;
+  color: var(--text-muted);
+  border-color: var(--border-strong);
+}
+
+.add-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  margin-right: 2px;
 }
 
 .inline-form .grow,
@@ -39,13 +53,19 @@
 }
 
 .amount-form .amount {
-  width: 130px;
+  width: 120px;
+}
+
+.amount-form .grow {
+  flex: 1 1 140px;
+  min-width: 120px;
 }
 
 .primary-btn {
-  background-color: #f5a800 !important;
+  background: var(--brand) !important;
   color: #fff !important;
-  margin-top: 8px;
+  height: 40px;
+  font-weight: 600;
 }
 
 .primary-btn[disabled] {

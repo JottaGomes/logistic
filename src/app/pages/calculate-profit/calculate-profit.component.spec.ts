@@ -89,4 +89,30 @@ describe('CalculateProfitComponent', () => {
 
     expect(component.errorMessage).toContain('Could not reach the server');
   });
+
+  it('asks the server to sort, because only one page is loaded', () => {
+    component.onSortChange({ active: 'profitOrLoss', direction: 'asc' });
+
+    expect(component.sortColumn).toBe('profitOrLoss');
+    expect(component.sortDirection).toBe('asc');
+    expect(component.pageIndex).toBe(0);
+    expect(service.findCalculations)
+      .toHaveBeenCalledWith(0, 10, 'profitOrLoss', 'asc', '');
+  });
+
+  it('falls back to the date when sorting is cleared', () => {
+    component.onSortChange({ active: 'customer', direction: '' });
+
+    expect(component.sortColumn).toBe('calculatedAt');
+    expect(component.sortDirection).toBe('desc');
+  });
+
+  it('re-opens a stored calculation without calling the backend again', () => {
+    service.calculate.calls.reset();
+
+    component.openCalculation(calculation);
+
+    expect(component.result).toEqual(calculation);
+    expect(service.calculate).not.toHaveBeenCalled();
+  });
 });

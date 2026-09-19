@@ -1,37 +1,34 @@
-<div class="container py-4">
+<div class="page">
 
-  <header class="page-header">
-    <h1>Calculate Profit</h1>
-    <p>Evaluate the income and costs recorded against a shipment.</p>
-  </header>
+  <p class="page-sub">Evaluate the income and costs recorded against a shipment.</p>
 
-  <form [formGroup]="form" (ngSubmit)="onCalculate()" class="calculate-form">
-
-    <mat-form-field appearance="outline" class="shipment-field">
-      <mat-label>Shipment</mat-label>
-      <mat-select formControlName="shipmentReference">
-        @for (shipment of shipments; track shipment.id) {
-          <mat-option [value]="shipment.reference">
-            {{ shipment.reference }} — {{ shipment.customer }}
-          </mat-option>
+  <section class="card form-card">
+    <form [formGroup]="form" (ngSubmit)="onCalculate()" class="calculate-form">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="shipment-field">
+        <mat-label>Shipment</mat-label>
+        <mat-select formControlName="shipmentReference">
+          @for (shipment of shipments; track shipment.id) {
+            <mat-option [value]="shipment.reference">
+              {{ shipment.reference }} — {{ shipment.customer }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (form.get('shipmentReference')?.hasError('required') && form.get('shipmentReference')?.touched) {
+          <mat-error>Pick a shipment to evaluate</mat-error>
         }
-      </mat-select>
-      @if (form.get('shipmentReference')?.hasError('required') && form.get('shipmentReference')?.touched) {
-        <mat-error>Pick a shipment to evaluate</mat-error>
-      }
-    </mat-form-field>
+      </mat-form-field>
 
-    <button mat-raised-button class="calculate-btn" type="submit" [disabled]="form.invalid || loading">
-      Calculate
-    </button>
-  </form>
-
-  @if (loading) {
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-  }
+      <button mat-flat-button class="primary-btn" type="submit" [disabled]="form.invalid || loading">
+        @if (loading) { Calculating… } @else { Calculate }
+      </button>
+    </form>
+    @if (loading) {
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    }
+  </section>
 
   @if (errorMessage) {
-    <div class="alert alert-danger mt-3" role="alert">{{ errorMessage }}</div>
+    <div class="alert alert-danger" role="alert">{{ errorMessage }}</div>
   }
 
   <!-- child component: receives the result, tells us when it is dismissed -->
@@ -39,60 +36,84 @@
     <app-calculation-result [calculation]="result" (dismissed)="result = null" />
   }
 
-  <h2 class="history-title">Previous calculations</h2>
+  <section class="card">
+    <header class="card-head">
+      <h2>Previous calculations</h2>
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="search-field">
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput [formControl]="search" placeholder="Filter by shipment or customer" />
+        @if (search.value) {
+          <button matSuffix mat-icon-button type="button" (click)="clearSearch()" aria-label="Clear filter">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+    </header>
 
-  <div class="table-wrapper">
-    <table mat-table [dataSource]="calculations" class="w-100 mat-elevation-z2">
+    @if (loadingHistory) {
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    }
 
-      <ng-container matColumnDef="shipmentReference">
-        <th mat-header-cell *matHeaderCellDef>Shipment</th>
-        <td mat-cell *matCellDef="let c">{{ c.shipmentReference }}</td>
-      </ng-container>
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="calculations" matSort
+             [matSortActive]="sortColumn" [matSortDirection]="sortDirection"
+             (matSortChange)="onSortChange($event)" class="w-100">
 
-      <ng-container matColumnDef="customer">
-        <th mat-header-cell *matHeaderCellDef>Customer</th>
-        <td mat-cell *matCellDef="let c">{{ c.customer }}</td>
-      </ng-container>
+        <ng-container matColumnDef="shipmentReference">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Shipment</th>
+          <td mat-cell *matCellDef="let c">{{ c.shipmentReference }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="totalIncome">
-        <th mat-header-cell *matHeaderCellDef class="numeric">Total Income</th>
-        <td mat-cell *matCellDef="let c" class="numeric">{{ c.totalIncome | currency:'EUR' }}</td>
-      </ng-container>
+        <ng-container matColumnDef="customer">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer</th>
+          <td mat-cell *matCellDef="let c">{{ c.customer }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="totalCosts">
-        <th mat-header-cell *matHeaderCellDef class="numeric">Total Costs</th>
-        <td mat-cell *matCellDef="let c" class="numeric">{{ c.totalCosts | currency:'EUR' }}</td>
-      </ng-container>
+        <ng-container matColumnDef="totalIncome">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="numeric">Total Income</th>
+          <td mat-cell *matCellDef="let c" class="numeric">{{ c.totalIncome | currency:'EUR' }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="profitOrLoss">
-        <th mat-header-cell *matHeaderCellDef class="numeric">Profit or Loss</th>
-        <td mat-cell *matCellDef="let c" class="numeric"
-            [class.profit]="c.profitOrLoss >= 0" [class.loss]="c.profitOrLoss < 0">
-          {{ c.profitOrLoss | currency:'EUR' }}
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="totalCosts">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="numeric">Total Costs</th>
+          <td mat-cell *matCellDef="let c" class="numeric">{{ c.totalCosts | currency:'EUR' }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="calculatedAt">
-        <th mat-header-cell *matHeaderCellDef>Calculated</th>
-        <td mat-cell *matCellDef="let c">{{ c.calculatedAt | date:'dd/MM/yyyy HH:mm' }}</td>
-      </ng-container>
+        <ng-container matColumnDef="profitOrLoss">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="numeric">Profit or Loss</th>
+          <td mat-cell *matCellDef="let c" class="numeric"
+              [class.profit]="c.profitOrLoss >= 0" [class.loss]="c.profitOrLoss < 0">
+            {{ c.profitOrLoss | currency:'EUR' }}
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <ng-container matColumnDef="calculatedAt">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Calculated</th>
+          <td mat-cell *matCellDef="let c">{{ c.calculatedAt | date:'dd/MM/yyyy HH:mm' }}</td>
+        </ng-container>
 
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell empty-row" [attr.colspan]="displayedColumns.length">
-          No calculations yet.
-        </td>
-      </tr>
-    </table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"
+            class="clickable" (click)="openCalculation(row)"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell empty-row" [attr.colspan]="displayedColumns.length">
+            @if (search.value) {
+              Nothing matches “{{ search.value }}”.
+            } @else {
+              No calculations yet.
+            }
+          </td>
+        </tr>
+      </table>
+    </div>
 
     <mat-paginator
       [length]="totalElements"
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"
-      [pageSizeOptions]="[5, 10, 25]"
+      [pageSizeOptions]="[10, 25, 50]"
       (page)="onPageChange($event)"
     ></mat-paginator>
-  </div>
+  </section>
 </div>

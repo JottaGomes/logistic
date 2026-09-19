@@ -17,6 +17,14 @@ export class AppComponent {
   /** login and register render standalone, without the app shell */
   isAuthPage = false;
 
+  /** Shown in the top bar, so the page always says what it is. */
+  pageTitle = '';
+
+  private static readonly TITLES: Record<string, string> = {
+    '/calculate-profit': 'Calculate Profit',
+    '/record-data': 'Record Data',
+  };
+
   constructor(
     public authService: AuthService,
     private router: Router,
@@ -26,6 +34,9 @@ export class AppComponent {
       .subscribe(e => {
         const url = (e as NavigationEnd).url;
         this.isAuthPage = url.startsWith('/login') || url.startsWith('/register');
+
+        const path = url.split('?')[0];
+        this.pageTitle = AppComponent.TITLES[path] ?? 'Logistics';
       });
   }
 

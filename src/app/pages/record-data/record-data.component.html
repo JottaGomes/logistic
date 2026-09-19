@@ -1,9 +1,8 @@
-<div class="container py-4">
+<div class="page">
 
-  <header class="page-header">
-    <h1>Record Data</h1>
-    <p>Customer payments and operational costs. Calculate Profit reads what is recorded here.</p>
-  </header>
+  <p class="page-sub">
+    Customer payments and operational costs. Calculate Profit reads what is recorded here.
+  </p>
 
   @if (errorMessage) {
     <div class="alert alert-danger" role="alert">{{ errorMessage }}</div>
@@ -96,8 +95,9 @@
               <mat-label>Description</mat-label>
               <input matInput formControlName="description" />
             </mat-form-field>
-            <button mat-icon-button type="submit" [disabled]="incomeForm.invalid || saving" aria-label="Add income">
-              <mat-icon>add_circle</mat-icon>
+            <button mat-stroked-button class="add-btn" type="submit"
+                    [disabled]="incomeForm.invalid || saving">
+              <mat-icon>add</mat-icon> Add
             </button>
           </form>
 
@@ -134,8 +134,9 @@
               <mat-label>Description</mat-label>
               <input matInput formControlName="description" />
             </mat-form-field>
-            <button mat-icon-button type="submit" [disabled]="costForm.invalid || saving" aria-label="Add cost">
-              <mat-icon>add_circle</mat-icon>
+            <button mat-stroked-button class="add-btn" type="submit"
+                    [disabled]="costForm.invalid || saving">
+              <mat-icon>add</mat-icon> Add
             </button>
           </form>
 
