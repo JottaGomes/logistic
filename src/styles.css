@@ -2,14 +2,15 @@
    Everything else is component-scoped. */
 
 :root {
-  /* Brand, taken from dachser.com: navy is the dominant colour and yellow the
-     accent — not the other way round. */
-  --navy: #1a3282;
-  --navy-dark: #132662;
-  --navy-light: #2b47a5;
-  --brand: #f5a800;
-  --brand-dark: #d99500;
-  --brand-ink: #14224f;
+  /* Sampled straight out of assets/logo.png, so the band behind the logo and the
+     logo's own field are the same colour and the seam disappears. Navy leads and
+     yellow accents, as on dachser.com. */
+  --navy: #1a3682;
+  --navy-dark: #12265c;
+  --navy-light: #2a4ca8;
+  --brand: #fbba00;
+  --brand-dark: #d89f00;
+  --brand-ink: #1a3682;
 
   /* surfaces */
   --bg: #f4f5f7;

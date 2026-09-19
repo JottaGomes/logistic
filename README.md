@@ -77,9 +77,10 @@ interceptors/ authInterceptor — attaches the JWT to every request
 ```
 
 **Shell.** A full-width navy top bar carries the logo, the page title and the
-signed-in user, with the sidebar beneath it. The palette follows dachser.com:
-navy is the dominant colour and yellow the accent, which is why primary buttons
-are navy and yellow is kept for the logo field and the active navigation marker. Tables run at back-office density (38px header, 40px rows),
+signed-in user, with the sidebar beneath it. The palette is sampled out of `assets/logo.png`
+itself — `#fbba00` and `#1a3682` — so the band behind the logo and the logo's own
+field are the same yellow with no seam between them. Navy is the dominant colour
+and yellow the accent, as on dachser.com, which is why primary buttons are navy. Tables run at back-office density (38px header, 40px rows),
 numbers are right-aligned with tabular figures, and profit and loss are coloured.
 
 **Scale.** Neither screen holds the shipment list. The backend hands out a
