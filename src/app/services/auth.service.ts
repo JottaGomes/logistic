@@ -35,6 +35,17 @@ export class AuthService {
     });
   }
 
+  register(username: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.baseUrl}/register`, { username, password }).pipe(
+      tap(response => {
+        if (response.success) {
+          localStorage.setItem(this.tokenKey, response.data.token);
+          localStorage.setItem(this.usernameKey, response.data.username);
+        }
+      })
+    );
+  }
+
   login(username: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, { username, password }).pipe(
       tap(response => {

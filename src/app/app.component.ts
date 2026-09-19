@@ -14,7 +14,8 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
 
-  isLoginPage = false;
+  /** login and register render standalone, without the app shell */
+  isAuthPage = false;
 
   constructor(
     public authService: AuthService,
@@ -23,7 +24,8 @@ export class AppComponent {
     this.router.events
       .pipe(filter(e => e instanceof NavigationEnd))
       .subscribe(e => {
-        this.isLoginPage = (e as NavigationEnd).url.startsWith('/login');
+        const url = (e as NavigationEnd).url;
+        this.isAuthPage = url.startsWith('/login') || url.startsWith('/register');
       });
   }
 
