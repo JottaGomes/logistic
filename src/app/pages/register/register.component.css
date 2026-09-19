@@ -7,7 +7,7 @@
 }
 
 .login-card {
-  background: #fff;
+  background: var(--surface);
   padding: 40px 32px;
   border-radius: 8px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
@@ -39,7 +39,7 @@ h2 {
 .sign-in-btn {
   width: 100%;
   background-color: var(--navy) !important;
-  color: #fff !important;
+  color: var(--on-navy) !important;
   margin-top: 8px;
 }
 
@@ -58,6 +58,6 @@ h2 {
 }
 
 .alt-action a {
-  color: var(--navy);
+  color: var(--brand-fg);
   font-weight: 500;
 }

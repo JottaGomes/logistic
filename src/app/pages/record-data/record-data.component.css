@@ -63,7 +63,7 @@
 
 .primary-btn {
   background: var(--navy) !important;
-  color: #fff !important;
+  color: var(--on-navy) !important;
   height: 40px;
   font-weight: 600;
 }
@@ -79,8 +79,8 @@
 }
 
 .chip {
-  border: 1.5px solid #ddd;
-  background: #fff;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
   border-radius: 20px;
   padding: 7px 14px;
   font-size: 0.85rem;
@@ -89,20 +89,20 @@
 }
 
 .chip:hover {
-  border-color: #bbb;
+  border-color: var(--border-strong);
 }
 
 .chip.active {
-  border-color: var(--navy);
-  background: #eef1fa;
-  color: var(--navy);
+  border-color: var(--brand-fg);
+  background: var(--surface-hover);
+  color: var(--brand-fg);
   font-weight: 600;
 }
 
 .chip-customer {
   display: block;
   font-size: 0.72rem;
-  color: #888;
+  color: var(--text-faint);
   font-weight: 400;
 }
 
@@ -123,7 +123,7 @@
 .customer {
   display: block;
   font-size: 0.8rem;
-  color: #777;
+  color: var(--text-muted);
 }
 
 .running {
@@ -131,17 +131,17 @@
   align-items: center;
   gap: 20px;
   font-size: 0.85rem;
-  color: #666;
+  color: var(--text-muted);
 }
 
 .running strong {
   font-variant-numeric: tabular-nums;
-  color: #333;
+  color: var(--text);
 }
 
 .hint {
   font-size: 0.78rem;
-  color: #999;
+  color: var(--text-faint);
   margin: 8px 0 16px;
 }
 
@@ -159,7 +159,7 @@
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #888;
+  color: var(--text-faint);
   margin: 0 0 8px;
 }
 
@@ -170,11 +170,11 @@
   align-items: baseline;
   padding: 5px 0;
   font-size: 0.85rem;
-  border-bottom: 1px solid #f4f4f4;
+  border-bottom: 1px solid var(--border);
 }
 
 .line-description {
-  color: #aaa;
+  color: var(--text-faint);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -185,15 +185,15 @@
 }
 
 .empty {
-  color: #999;
+  color: var(--text-faint);
   font-size: 0.85rem;
   font-style: italic;
 }
 
 .alert-success {
-  background: #e8f5e9;
-  border: 1px solid #c3e6c8;
-  color: #256029;
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+  color: var(--success-text);
   border-radius: 4px;
   padding: 10px 14px;
   font-size: 0.85rem;

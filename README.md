@@ -8,7 +8,8 @@ Boot backend (Example 1) is at https://github.com/JottaGomes/logistic-be.
 
 ## Stack
 
-Angular 17 (standalone components), Angular Material, Jasmine + Karma for tests.
+Angular 17 (standalone components), Angular Material themed in SCSS, Jasmine +
+Karma for tests.
 
 No CSS framework. Design tokens live in `src/styles.css` and everything else is
 component-scoped — Bootstrap was pulled in for eight utility classes and a grid
@@ -35,17 +36,17 @@ http://localhost:4200
 npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-37 specs. With coverage:
+43 specs. With coverage:
 
 ```bash
 npm test -- --watch=false --browsers=ChromeHeadless --code-coverage
 ```
 
 ```
-Statements   : 84.49% ( 158/187 )
-Branches     : 78.26% (  36/46 )
-Functions    : 73.97% (  54/73 )
-Lines        : 84.15% ( 154/183 )
+Statements   : 84.97% ( 181/213 )
+Branches     : 77.61% (  52/67 )
+Functions    : 74.39% (  61/82 )
+Lines        : 84.76% ( 178/210 )
 ```
 
 The HTML report lands in `coverage/`.
@@ -75,6 +76,14 @@ pages/        calculate-profit (the use case), record-data (administration),
 guards/       authGuard
 interceptors/ authInterceptor — attaches the JWT to every request
 ```
+
+**Light and dark.** The toggle in the top bar switches between them and remembers
+the choice; until one is made, the app follows the operating system. Colours are
+CSS custom properties defined once per theme in `styles.scss`, and Angular
+Material is themed from the same two brand colours rather than a prebuilt palette
+— dropping `indigo-pink` took the initial bundle from 1.01 MB to 889 kB. The navy
+and the yellow do not change between themes; only surfaces, text and the
+profit/loss pair do.
 
 **Shell.** A full-width navy top bar carries the logo, the page title and the
 signed-in user, with the sidebar beneath it. The palette is sampled out of `assets/logo.png`
@@ -116,5 +125,5 @@ the backend locally. Point `apiUrl` at a reachable host to change that.
 | Source code that builds and serves | this repository, `npm start` |
 | Model / Components / Service / Form / Routing | `src/app/...` |
 | Frontend question answers | [FRONTEND_QUESTIONS.md](FRONTEND_QUESTIONS.md) |
-| Jasmine unit tests (optional) | 37 specs, `npm test` |
-| Coverage report (optional) | `--code-coverage`, 84.49% statements |
+| Jasmine unit tests (optional) | 43 specs, `npm test` |
+| Coverage report (optional) | `--code-coverage`, 84.97% statements |

@@ -10,6 +10,11 @@
         <h1>{{ pageTitle }}</h1>
       </div>
       <div class="topbar-right">
+        <button mat-icon-button (click)="toggleTheme()"
+                [title]="themeService.theme() === 'dark' ? 'Switch to light' : 'Switch to dark'"
+                [attr.aria-label]="themeService.theme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'">
+          <mat-icon>{{ themeService.theme() === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        </button>
         @if (authService.loginEnabled) {
           <span class="user">
             <mat-icon>account_circle</mat-icon>

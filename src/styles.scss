@@ -1,0 +1,231 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+/* Palettes built around the two colours sampled from assets/logo.png, so Material's
+   own components pick up the brand instead of the default indigo and pink. */
+$navy-palette: (
+  50: #e8ebf4, 100: #c5cde3, 200: #9facd1, 300: #798abe, 400: #5c71b0,
+  500: #1a3682, 600: #16307a, 700: #12266f, 800: #0e1d65, 900: #080e52,
+  A100: #96a6ff, A200: #6379ff, A400: #304dff, A700: #1737ff,
+  contrast: (
+    50: rgba(0, 0, 0, 0.87), 100: rgba(0, 0, 0, 0.87), 200: rgba(0, 0, 0, 0.87),
+    300: #fff, 400: #fff, 500: #fff, 600: #fff, 700: #fff, 800: #fff, 900: #fff,
+    A100: rgba(0, 0, 0, 0.87), A200: #fff, A400: #fff, A700: #fff,
+  )
+);
+
+$amber-palette: (
+  50: #fff8e1, 100: #feecb3, 200: #fde081, 300: #fcd44e, 400: #fcca28,
+  500: #fbba00, 600: #f9ab00, 700: #f79800, 800: #f58700, 900: #f16700,
+  A100: #ffffff, A200: #fff5e5, A400: #ffdeb2, A700: #ffd299,
+  contrast: (
+    50: rgba(0, 0, 0, 0.87), 100: rgba(0, 0, 0, 0.87), 200: rgba(0, 0, 0, 0.87),
+    300: rgba(0, 0, 0, 0.87), 400: rgba(0, 0, 0, 0.87), 500: rgba(0, 0, 0, 0.87),
+    600: rgba(0, 0, 0, 0.87), 700: rgba(0, 0, 0, 0.87), 800: rgba(0, 0, 0, 0.87),
+    900: rgba(0, 0, 0, 0.87), A100: rgba(0, 0, 0, 0.87), A200: rgba(0, 0, 0, 0.87),
+    A400: rgba(0, 0, 0, 0.87), A700: rgba(0, 0, 0, 0.87),
+  )
+);
+
+$primary: mat.define-palette($navy-palette, 500);
+$accent: mat.define-palette($amber-palette, 500);
+$warn: mat.define-palette(mat.$red-palette);
+
+$light-theme: mat.define-light-theme((color: (primary: $primary, accent: $accent, warn: $warn)));
+$dark-theme: mat.define-dark-theme((color: (primary: $primary, accent: $accent, warn: $warn)));
+
+@include mat.all-component-themes($light-theme);
+
+/* Only the colours are re-emitted for dark, not the whole theme: typography and
+   density are identical, and repeating them would double the stylesheet. */
+html.dark {
+  @include mat.all-component-colors($dark-theme);
+}
+
+/* Design tokens and the few global rules the app relies on.
+   Everything else is component-scoped. */
+
+:root {
+  /* Sampled straight out of assets/logo.png, so the band behind the logo and the
+     logo's own field are the same colour and the seam disappears. Navy leads and
+     yellow accents, as on dachser.com. Fixed in both themes: the brand does not
+     change colour when the lights go out. */
+  --navy: #1a3682;
+  --navy-dark: #12265c;
+  --navy-light: #2a4ca8;
+  --brand: #fbba00;
+  --brand-dark: #d89f00;
+  --brand-ink: #1a3682;
+  /* Text sitting on navy or on the brand yellow. Fixed in both themes, because
+     what it sits on is fixed too. */
+  --on-navy: #ffffff;
+  --on-navy-muted: rgba(255, 255, 255, 0.72);
+  /* The brand navy as a foreground on an ordinary surface. Unreadable on a dark
+     one, so the dark theme lifts it to a tint that still reads as the same blue. */
+  --brand-fg: #1a3682;
+
+  /* surfaces */
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --surface-sunken: #fafbfc;
+  --surface-hover: #f4f5f7;
+  --border: #e3e5e8;
+  --border-strong: #d0d3d8;
+
+  /* text */
+  --text: #1f2329;
+  --text-muted: #6b7280;
+  --text-faint: #9ca3af;
+  --text-on-brand: #1a3682;
+
+  /* semantic */
+  --profit: #1a7f37;
+  --loss: #c0362c;
+  --danger-bg: #fdecea;
+  --danger-border: #f5c2bd;
+  --danger-text: #a3241c;
+  --success-bg: #e9f6ec;
+  --success-border: #c3e6c8;
+  --success-text: #1a7f37;
+
+  /* layout */
+  --sidebar-width: 208px;
+  --topbar-height: 64px;
+  --radius: 6px;
+  --shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1);
+}
+
+/* Dark theme. Only what changes with the lights: the brand colours above stay put.
+   Surfaces are lifted off pure black, which is harsh against white text, and the
+   profit/loss pair is brightened so it still reads against a dark background. */
+html.dark {
+  --bg: #12161d;
+  --surface: #1a1f28;
+  --surface-sunken: #161b23;
+  --surface-hover: #222834;
+  --border: #2b323d;
+  --border-strong: #3b4351;
+
+  --text: #e6e9ee;
+  --text-muted: #9aa4b2;
+  --text-faint: #6b7686;
+  --brand-fg: #93a9e8;
+
+  --profit: #4ade80;
+  --loss: #f87171;
+  --danger-bg: #3a1d1b;
+  --danger-border: #5c2b27;
+  --danger-text: #fca5a5;
+  --success-bg: #14301f;
+  --success-border: #1f4a30;
+  --success-text: #86efac;
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Numbers in tables must line up digit by digit to be scannable.
+   Scoped through .mat-mdc-table so these outweigh Material's own cell rules,
+   which set text-align and colour at a higher specificity than a bare class. */
+.numeric,
+.mat-mdc-table .numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.profit,
+.mat-mdc-table .profit {
+  color: var(--profit);
+  font-weight: 600;
+}
+
+.loss,
+.mat-mdc-table .loss {
+  color: var(--loss);
+  font-weight: 600;
+}
+
+/* Messages. Bootstrap used to supply these; three rules is cheaper than the framework. */
+.alert {
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.alert-danger {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  color: var(--danger-text);
+}
+
+.alert-success {
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+  color: var(--success-text);
+}
+
+/* Angular Material runs airy by default. A back office is read, not admired:
+   tighter rows mean more shipments visible without scrolling. */
+.mat-mdc-table {
+  background: var(--surface);
+}
+
+.mat-mdc-table .mat-mdc-header-row {
+  height: 38px;
+  background: var(--surface-sunken);
+}
+
+.mat-mdc-table .mat-mdc-row {
+  height: 40px;
+}
+
+.mat-mdc-table .mat-mdc-header-cell {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.mat-mdc-table .mat-mdc-cell {
+  font-size: 13px;
+  /* no colour here on purpose: it is inherited from body, and declaring it
+     would outrank .profit / .loss above and flatten them to plain text */
+  border-bottom: 1px solid var(--border);
+}
+
+.mat-mdc-table .mat-sort-header-arrow {
+  color: var(--text-faint);
+}
+
+.mat-mdc-paginator {
+  background: transparent;
+  font-size: 12px;
+}
+
+/* Form fields: the default 56px is too tall to sit next to a dense table. */
+.mat-mdc-form-field {
+  font-size: 13px;
+}

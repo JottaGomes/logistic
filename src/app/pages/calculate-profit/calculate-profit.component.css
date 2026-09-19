@@ -50,7 +50,7 @@
 .primary-btn {
   height: 40px;
   background: var(--navy) !important;
-  color: #fff !important;
+  color: var(--on-navy) !important;
   font-weight: 600;
 }
 

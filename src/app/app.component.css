@@ -18,7 +18,7 @@
   background: var(--navy);
   display: flex;
   align-items: stretch;
-  color: #fff;
+  color: var(--on-navy);
 }
 
 /* The logo keeps its own yellow field, the way the brand is used on the site. */
@@ -52,14 +52,14 @@
   font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--on-navy-muted);
 }
 
 .topbar h1 {
   font-size: 16px;
   font-weight: 600;
   margin: 0;
-  color: #fff;
+  color: var(--on-navy);
 }
 
 .topbar-right {
@@ -74,7 +74,7 @@
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--on-navy-muted);
 }
 
 .user mat-icon,
@@ -85,7 +85,7 @@
 }
 
 .topbar-right button {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--on-navy-muted);
 }
 
 /* Says out loud that the API is unprotected, so it is never a surprise. */
@@ -139,14 +139,14 @@ nav {
 }
 
 .nav-item.active {
-  background: #eef1fa;
-  color: var(--navy);
+  background: var(--surface-hover);
+  color: var(--brand-fg);
   font-weight: 600;
   box-shadow: inset 3px 0 0 var(--brand);
 }
 
 .nav-item.active mat-icon {
-  color: var(--navy);
+  color: var(--brand-fg);
 }
 
 /* ---- content ---- */
