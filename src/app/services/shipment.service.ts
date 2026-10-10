@@ -21,6 +21,9 @@ export class ShipmentService {
 
   private readonly baseUrl = `${environment.apiUrl}/api/shipments`;
 
+  /** Calculations are a resource of their own, not a sub-path of a shipment. */
+  private readonly calculationsUrl = `${environment.apiUrl}/api/profit-calculations`;
+
   constructor(private http: HttpClient) {}
 
   /**
@@ -72,7 +75,7 @@ export class ShipmentService {
   /** Asks the backend to evaluate a shipment; the amounts come from its own records. */
   calculate(shipmentReference: string): Observable<ProfitCalculation> {
     return this.http
-      .post<ApiResponse<ProfitCalculation>>(`${this.baseUrl}/calculate`, { shipmentReference })
+      .post<ApiResponse<ProfitCalculation>>(this.calculationsUrl, { shipmentReference })
       .pipe(map(res => res.data));
   }
 
@@ -101,7 +104,7 @@ export class ShipmentService {
     }
 
     return this.http
-      .get<ApiResponse<Page<ProfitCalculation>>>(`${this.baseUrl}/calculations`, { params })
+      .get<ApiResponse<Page<ProfitCalculation>>>(this.calculationsUrl, { params })
       .pipe(map(res => res.data));
   }
 }

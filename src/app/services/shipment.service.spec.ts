@@ -10,6 +10,7 @@ describe('ShipmentService', () => {
   let http: HttpTestingController;
 
   const baseUrl = `${environment.apiUrl}/api/shipments`;
+  const calculationsUrl = `${environment.apiUrl}/api/profit-calculations`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,7 +47,7 @@ describe('ShipmentService', () => {
   it('posts only the shipment reference to calculate', () => {
     service.calculate('SHP-1').subscribe();
 
-    const request = http.expectOne(`${baseUrl}/calculate`);
+    const request = http.expectOne(calculationsUrl);
     expect(request.request.method).toBe('POST');
     expect(request.request.body).toEqual({ shipmentReference: 'SHP-1' });
     request.flush({ success: true, message: null, data: { id: 1, profitOrLoss: 100 } });
@@ -55,7 +56,7 @@ describe('ShipmentService', () => {
   it('passes pagination through as query parameters', () => {
     service.findCalculations(2, 25).subscribe();
 
-    const request = http.expectOne(r => r.url === `${baseUrl}/calculations`);
+    const request = http.expectOne(r => r.url === calculationsUrl);
     expect(request.request.params.get('page')).toBe('2');
     expect(request.request.params.get('size')).toBe('25');
     request.flush({ success: true, message: null, data: { content: [], totalElements: 0, number: 0, size: 25 } });
