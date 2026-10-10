@@ -72,6 +72,25 @@ export class ShipmentService {
       .pipe(map(res => res.data));
   }
 
+  /**
+   * Corrects an income already recorded. `version` is the one the line carried
+   * when it was read; if someone corrected it since, the backend answers 409.
+   */
+  correctIncome(reference: string, id: number, amount: number, description: string, version: number): Observable<ShipmentDetail> {
+    return this.http
+      .put<ApiResponse<ShipmentDetail>>(
+        `${this.baseUrl}/${encodeURIComponent(reference)}/incomes/${id}`, { amount, description, version })
+      .pipe(map(res => res.data));
+  }
+
+  /** Corrects a cost already recorded; same rules as correctIncome. */
+  correctCost(reference: string, id: number, amount: number, description: string, version: number): Observable<ShipmentDetail> {
+    return this.http
+      .put<ApiResponse<ShipmentDetail>>(
+        `${this.baseUrl}/${encodeURIComponent(reference)}/costs/${id}`, { amount, description, version })
+      .pipe(map(res => res.data));
+  }
+
   /** Asks the backend to evaluate a shipment; the amounts come from its own records. */
   calculate(shipmentReference: string): Observable<ProfitCalculation> {
     return this.http

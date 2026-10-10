@@ -36,17 +36,17 @@ http://localhost:4200
 npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-43 specs. With coverage:
+47 specs. With coverage:
 
 ```bash
 npm test -- --watch=false --browsers=ChromeHeadless --code-coverage
 ```
 
 ```
-Statements   : 84.97% ( 181/213 )
-Branches     : 77.61% (  52/67 )
-Functions    : 74.39% (  61/82 )
-Lines        : 84.76% ( 178/210 )
+Statements   : 85.24% ( 208/244 )
+Branches     : 72.94% (  62/85 )
+Functions    : 73.11% (  68/93 )
+Lines        : 85%    ( 204/240 )
 ```
 
 The HTML report lands in `coverage/`.
@@ -101,6 +101,10 @@ the full list is neither sendable nor selectable.
 is what satisfies its pre-condition — customer payment and operational cost
 administration, from section 1.4 of the requirements — and is kept separate so the
 use case stays self-contained. `?shipment=SHP-...` opens it on one shipment.
+A recorded amount can be corrected in place (the pencil on each line). The
+correction carries the line's `version`; if someone else corrected it first, the
+backend answers `409`, the edit is dropped and the shipment reloaded, so the user
+sees the current amount instead of overwriting it.
 
 The calculation screen is a parent/child pair on purpose: `CalculateProfitComponent` holds the
 state and talks to the service; `CalculationResultComponent` only renders what it
@@ -125,5 +129,5 @@ the backend locally. Point `apiUrl` at a reachable host to change that.
 | Source code that builds and serves | this repository, `npm start` |
 | Model / Components / Service / Form / Routing | `src/app/...` |
 | Frontend question answers | [FRONTEND_QUESTIONS.md](FRONTEND_QUESTIONS.md) |
-| Jasmine unit tests (optional) | 43 specs, `npm test` |
-| Coverage report (optional) | `--code-coverage`, 84.97% statements |
+| Jasmine unit tests (optional) | 47 specs, `npm test` |
+| Coverage report (optional) | `--code-coverage`, 85.24% statements |

@@ -10,7 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ShipmentService } from '../../services/shipment.service';
-import { COST_TYPES, INCOME_TYPES, Shipment, ShipmentDetail } from '../../models/shipment.model';
+import { AmountLine, COST_TYPES, INCOME_TYPES, Shipment, ShipmentDetail } from '../../models/shipment.model';
+
+type AmountKind = 'income' | 'cost';
 
 /**
  * Customer payment and operational cost administration (requirements 1.4).
@@ -47,6 +49,10 @@ export class RecordDataComponent implements OnInit {
   shipmentSearch = new FormControl('');
   selected: ShipmentDetail | null = null;
 
+  /** The one line being corrected, if any. */
+  editing: { kind: AmountKind; line: AmountLine } | null = null;
+  editForm: FormGroup;
+
   errorMessage = '';
   successMessage = '';
   saving = false;
@@ -64,6 +70,11 @@ export class RecordDataComponent implements OnInit {
 
     this.incomeForm = this.amountForm(INCOME_TYPES[0]);
     this.costForm = this.amountForm(COST_TYPES[0]);
+
+    this.editForm = this.fb.group({
+      amount: [null, [Validators.required, Validators.min(0)]],
+      description: ['', Validators.maxLength(255)],
+    });
   }
 
   private amountForm(defaultType: string): FormGroup {
@@ -175,6 +186,62 @@ export class RecordDataComponent implements OnInit {
       error: error => {
         this.saving = false;
         this.errorMessage = this.describe(error, 'Could not record that amount');
+      },
+    });
+  }
+
+  isEditing(kind: AmountKind, line: AmountLine): boolean {
+    return this.editing?.kind === kind && this.editing.line.id === line.id;
+  }
+
+  startEdit(kind: AmountKind, line: AmountLine): void {
+    this.clearMessages();
+    this.editing = { kind, line };
+    this.editForm.reset({ amount: line.amount, description: line.description ?? '' });
+  }
+
+  cancelEdit(): void {
+    this.editing = null;
+  }
+
+  /**
+   * Sends the correction with the version the line had when it was shown. A 409
+   * means someone corrected it in the meantime: the edit is dropped and the
+   * shipment reloaded, so the user sees the current amount before trying again
+   * instead of overwriting it.
+   */
+  saveEdit(): void {
+
+    if (this.editForm.invalid || !this.selected || !this.editing || this.saving) {
+      return;
+    }
+
+    this.clearMessages();
+    this.saving = true;
+
+    const { kind, line } = this.editing;
+    const { amount, description } = this.editForm.value;
+    const reference = this.selected.reference;
+
+    const request = kind === 'income'
+      ? this.shipmentService.correctIncome(reference, line.id, amount, description ?? '', line.version)
+      : this.shipmentService.correctCost(reference, line.id, amount, description ?? '', line.version);
+
+    request.subscribe({
+      next: detail => {
+        this.saving = false;
+        this.editing = null;
+        this.selected = detail;
+        this.successMessage = kind === 'income' ? 'Income corrected' : 'Cost corrected';
+      },
+      error: error => {
+        this.saving = false;
+        this.errorMessage = this.describe(error, 'Could not correct that amount');
+
+        if (error.status === 409) {
+          this.editing = null;
+          this.shipmentService.findShipment(reference).subscribe(detail => (this.selected = detail));
+        }
       },
     });
   }

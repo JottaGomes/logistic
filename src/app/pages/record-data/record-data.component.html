@@ -112,11 +112,7 @@
           </form>
 
           @for (line of detail.incomes; track line.id) {
-            <div class="line">
-              <span class="line-type">{{ label(line.type) }}</span>
-              <span class="line-description">{{ line.description }}</span>
-              <span class="line-amount">{{ line.amount | currency:'EUR' }}</span>
-            </div>
+            <ng-container *ngTemplateOutlet="amountLine; context: { $implicit: line, kind: 'income' }" />
           } @empty {
             <p class="empty">Nothing recorded yet.</p>
           }
@@ -151,11 +147,7 @@
           </form>
 
           @for (line of detail.costs; track line.id) {
-            <div class="line">
-              <span class="line-type">{{ label(line.type) }}</span>
-              <span class="line-description">{{ line.description }}</span>
-              <span class="line-amount">{{ line.amount | currency:'EUR' }}</span>
-            </div>
+            <ng-container *ngTemplateOutlet="amountLine; context: { $implicit: line, kind: 'cost' }" />
           } @empty {
             <p class="empty">Nothing recorded yet.</p>
           }
@@ -164,3 +156,34 @@
     </section>
   }
 </div>
+
+<!-- One recorded income or cost: read-only, or the inline correction form when it is the line being edited. -->
+<ng-template #amountLine let-line let-kind="kind">
+  @if (isEditing(kind, line)) {
+    <form [formGroup]="editForm" (ngSubmit)="saveEdit()" class="amount-form">
+      <mat-form-field appearance="outline" class="amount">
+        <mat-label>Amount</mat-label>
+        <input matInput type="number" formControlName="amount" min="0" step="0.01" />
+        @if (editForm.get('amount')?.hasError('min')) {
+          <mat-error>Must not be negative</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="grow">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description" />
+      </mat-form-field>
+      <button mat-stroked-button class="add-btn" type="submit" [disabled]="editForm.invalid || saving">Save</button>
+      <button mat-button type="button" (click)="cancelEdit()">Cancel</button>
+    </form>
+  } @else {
+    <div class="line">
+      <span class="line-type">{{ label(line.type) }}</span>
+      <span class="line-description">{{ line.description }}</span>
+      <span class="line-amount">{{ line.amount | currency:'EUR' }}</span>
+      <button mat-icon-button class="line-edit" type="button" [disabled]="saving"
+              (click)="startEdit(kind, line)" [attr.aria-label]="'Correct ' + label(line.type)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+  }
+</ng-template>

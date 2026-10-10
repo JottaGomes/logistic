@@ -27,7 +27,7 @@ describe('RecordDataComponent', () => {
 
   beforeEach(async () => {
     service = jasmine.createSpyObj<ShipmentService>('ShipmentService',
-      ['findShipments', 'findShipment', 'createShipment', 'recordIncome', 'recordCost']);
+      ['findShipments', 'findShipment', 'createShipment', 'recordIncome', 'recordCost', 'correctIncome', 'correctCost']);
     service.findShipments.and.returnValue(of(shipments));
     service.findShipment.and.returnValue(of(detail));
 
@@ -87,7 +87,7 @@ describe('RecordDataComponent', () => {
 
   it('records an income against the selected shipment and keeps the returned totals', () => {
     const updated: ShipmentDetail = { ...detail, totalIncome: 300, incomes: [
-      { id: 1, type: 'AGENT_INCOME', amount: 300, description: 'Agent share' },
+      { id: 1, type: 'AGENT_INCOME', amount: 300, description: 'Agent share', version: 0 },
     ] };
     service.recordIncome.and.returnValue(of(updated));
 
@@ -118,5 +118,45 @@ describe('RecordDataComponent', () => {
 
     expect(component.costForm.invalid).toBeTrue();
     expect(service.recordCost).not.toHaveBeenCalled();
+  });
+
+  describe('correcting a recorded amount', () => {
+
+    const cost = { id: 7, type: 'MAIN_CARRIAGE', amount: 3000, description: 'Line haul', version: 2 };
+
+    beforeEach(() => component.startEdit('cost', cost));
+
+    it('sends the version the line was shown with', () => {
+      service.correctCost.and.returnValue(of(detail));
+      component.editForm.setValue({ amount: 3200, description: 'Line haul' });
+
+      component.saveEdit();
+
+      expect(service.correctCost).toHaveBeenCalledWith('SHP-1', 7, 3200, 'Line haul', 2);
+      expect(component.editing).toBeNull();
+      expect(component.successMessage).toBe('Cost corrected');
+    });
+
+    it('on a conflict, drops the edit and reloads the shipment to show the current amount', () => {
+      service.correctCost.and.returnValue(throwError(() => new HttpErrorResponse({
+        status: 409,
+        error: { success: false, message: 'The cost with id 7 was changed by someone else.', data: null },
+      })));
+      service.findShipment.calls.reset();
+
+      component.saveEdit();
+
+      expect(component.editing).toBeNull();
+      expect(component.errorMessage).toContain('changed by someone else');
+      expect(service.findShipment).toHaveBeenCalledWith('SHP-1');
+    });
+
+    it('will not send a negative amount', () => {
+      component.editForm.setValue({ amount: -1, description: '' });
+
+      component.saveEdit();
+
+      expect(service.correctCost).not.toHaveBeenCalled();
+    });
   });
 });

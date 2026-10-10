@@ -61,4 +61,13 @@ describe('ShipmentService', () => {
     expect(request.request.params.get('size')).toBe('25');
     request.flush({ success: true, message: null, data: { content: [], totalElements: 0, number: 0, size: 25 } });
   });
+
+  it('puts a correction with the version it was based on', () => {
+    service.correctCost('SHP 1', 7, 3200, 'Line haul', 2).subscribe();
+
+    const request = http.expectOne(`${baseUrl}/SHP%201/costs/7`);
+    expect(request.request.method).toBe('PUT');
+    expect(request.request.body).toEqual({ amount: 3200, description: 'Line haul', version: 2 });
+    request.flush({ success: true, message: null, data: {} });
+  });
 });

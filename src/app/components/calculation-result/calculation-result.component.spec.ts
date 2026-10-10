@@ -15,8 +15,8 @@ describe('CalculationResultComponent', () => {
     totalCosts: 3200,
     profitOrLoss: 2100,
     calculatedAt: '2026-09-19T10:00:00',
-    incomes: [{ id: 1, type: 'CUSTOMER_PAYMENT', amount: 5300, description: 'Invoice' }],
-    costs: [{ id: 1, type: 'MAIN_CARRIAGE', amount: 3200, description: 'Line haul' }],
+    incomes: [{ id: 1, type: 'CUSTOMER_PAYMENT', amount: 5300, description: 'Invoice', version: 0 }],
+    costs: [{ id: 1, type: 'MAIN_CARRIAGE', amount: 3200, description: 'Line haul', version: 0 }],
   };
 
   beforeEach(async () => {

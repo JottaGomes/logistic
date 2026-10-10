@@ -11,6 +11,8 @@ export interface AmountLine {
   type: string;
   amount: number;
   description: string | null;
+  /** Echoed back with a correction, so the backend can refuse a stale one (409). */
+  version: number;
 }
 
 /** The outcome of the Calculate Profit use case. */
