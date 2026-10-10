@@ -11,7 +11,7 @@ Boot backend (Example 1) is at https://github.com/JottaGomes/logistic-be.
 Angular 17 (standalone components), Angular Material themed in SCSS, Jasmine +
 Karma for tests.
 
-No CSS framework. Design tokens live in `src/styles.css` and everything else is
+No CSS framework. Design tokens live in `src/styles.scss` and everything else is
 component-scoped — Bootstrap was pulled in for eight utility classes and a grid
 the layout no longer uses, and having two design systems side by side was the
 main reason the spacing and typography never quite agreed.
@@ -58,9 +58,9 @@ implementation:
 
 | File | State |
 |---|---|
-| `01-calculate-profit-initial.png` | nothing selected, history listed |
+| `01-calculate-profit-initial.png` | searching the shipment typeahead, history listed |
 | `02-calculate-profit-result.png` | a profit, with its income and cost breakdown |
-| `03-calculate-profit-loss-and-error.png` | a loss, and both error states |
+| `03-calculate-profit-loss-and-error.png` | a loss, and the three error states (not found, data retrieval failure, server unreachable) |
 
 The `.html` sources are alongside them. They show the intended structure and
 states; the styling is indicative rather than pixel-accurate.
@@ -93,7 +93,7 @@ and yellow the accent, as on dachser.com, which is why primary buttons are navy.
 numbers are right-aligned with tabular figures, and profit and loss are coloured.
 
 **Scale.** Neither screen holds the shipment list. The backend hands out a
-bounded, searchable slice, so both the dropdown and the chip list are typeaheads
+bounded, searchable slice, so both the shipment field and the chip list are typeaheads
 that query as you type — at the 10,000 shipments a day the requirements ask for,
 the full list is neither sendable nor selectable.
 

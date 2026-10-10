@@ -13,7 +13,7 @@
       <div class="row">
         <div class="field">
           <div class="label">SHIPMENT</div>
-          <div class="input"><span>SHP-2026-0004 — Renault Cacia</span><span class="chev">▾</span></div>
+          <div class="input"><span>SHP-2026-0004</span><span class="icon">⌕</span></div>
         </div>
         <div style="padding-top:17px"><div class="btn">Calculate</div></div>
       </div>
@@ -45,6 +45,8 @@
       <h2>Alternative flow I — data retrieval error</h2>
       <div class="alert">⚠ No shipment found with reference SHP-2026-9999</div>
       <div style="margin-top:8px"><span class="annot">Backend logs the failure and returns 404; the user can retry or fix the data</span></div>
+      <div class="alert" style="margin-top:12px">⚠ Could not retrieve the income and cost data. Please retry the request.</div>
+      <div style="margin-top:8px"><span class="annot">Database unavailable: backend logs the cause and returns 503; the same Calculate click retries</span></div>
       <div class="alert" style="margin-top:12px">⚠ Could not reach the server. Check that the backend is running.</div>
       <div style="margin-top:8px"><span class="annot">HTTP status 0 gets its own message instead of a blank error</span></div>
     </div>

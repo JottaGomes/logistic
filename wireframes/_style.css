@@ -61,3 +61,14 @@ th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
          padding: 12px 14px; font-size: 13px; margin-top: 18px; }
 .notes { padding: 14px 16px; background: #fafafa; border-top: 2px solid #999; font-size: 12px; color: #555; line-height: 1.7; }
 .notes b { color: #333; }
+
+/* Shipment typeahead: a server-side search, not a select over a list held in the browser. */
+.field { position: relative; }
+.input .icon { color: #999; font-size: 22px; line-height: 1; }
+.input .typed::after { content: '|'; color: #1a3282; margin-left: 1px; }
+.suggest { position: absolute; left: 0; right: 0; top: 66px; background: #fff; z-index: 2;
+           border: 1px solid #ccc; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+.suggest div { padding: 9px 12px; font-size: 13px; border-bottom: 1px solid #eee; }
+.suggest div:last-child { border-bottom: 0; }
+.suggest div:first-child { background: #eef1fa; }
+.suggest .cust { color: #888; margin-left: 8px; }

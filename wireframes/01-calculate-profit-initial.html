@@ -1,6 +1,6 @@
 <!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_style.css"></head><body>
 <div class="frame">
-  <div class="caption">Calculate Profit — 1. Initial state</div>
+  <div class="caption">Calculate Profit — 1. Choosing a shipment</div>
   <div class="shell">
     <div class="sidebar">
       <div class="logo">[ DACHSER logo ]</div>
@@ -13,11 +13,16 @@
       <div class="row">
         <div class="field">
           <div class="label">SHIPMENT</div>
-          <div class="input"><span style="color:#aaa">Select a shipment…</span><span class="chev">▾</span></div>
+          <div class="input"><span class="typed">son</span><span class="icon">⌕</span></div>
+          <div class="suggest">
+            <div><b>SHP-2026-0001</b><span class="cust">Sonae Distribuicao</span></div>
+            <div><b>SHP-2026-0417</b><span class="cust">Sonae MC</span></div>
+            <div><b>SHP-2026-0952</b><span class="cust">Sonae Sierra</span></div>
+          </div>
         </div>
         <div style="padding-top:17px"><div class="btn" style="opacity:.45">Calculate</div></div>
       </div>
-      <div style="margin-top:10px"><span class="annot">Button disabled until a shipment is chosen (form validation)</span></div>
+      <div style="margin-top:112px"><span class="annot">Typeahead on reference or customer: server-side search, 250 ms debounce, at most 20 matches</span> <span class="annot">Button disabled until a shipment is chosen (form validation)</span></div>
       <h2>Previous calculations</h2>
       <table>
         <tr><th>Shipment</th><th>Customer</th><th class="num">Total Income</th><th class="num">Total Costs</th><th class="num">Profit or Loss</th><th>Calculated</th></tr>
