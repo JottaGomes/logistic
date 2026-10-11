@@ -16,7 +16,7 @@ const TOOL_LABELS: Record<string, string> = {
 };
 
 /**
- * Floating assistant that answers questions about shipments from the backend's
+ * Dachser AI: a floating assistant that answers questions about shipments from the backend's
  * data. Collapsed to a button until opened; the conversation lives in memory and
  * is lost on reload, which keeps shipment data out of browser storage.
  */

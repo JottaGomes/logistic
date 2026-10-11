@@ -106,7 +106,7 @@ correction carries the line's `version`; if someone else corrected it first, the
 backend answers `409`, the edit is dropped and the shipment reloaded, so the user
 sees the current amount instead of overwriting it.
 
-**Shipment assistant.** The chat button at the bottom right of every page opens
+**Dachser AI.** The chat button (a sparkle icon) at the bottom right of every page opens
 an assistant that answers questions about shipments from the backend's data
 (`POST /api/chat`; the backend needs `GROQ_API_KEY`). Each answer names the data
 it came from. The conversation is kept in memory only, so shipment data does not

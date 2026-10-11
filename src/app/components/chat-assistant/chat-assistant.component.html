@@ -1,14 +1,14 @@
 @if (open) {
-  <section class="panel" role="dialog" aria-label="Shipment assistant">
+  <section class="panel" role="dialog" aria-label="Dachser AI">
     <header>
-      <mat-icon>smart_toy</mat-icon>
-      <span class="title">Shipment assistant</span>
+      <span class="mark" aria-hidden="true"><mat-icon>auto_awesome</mat-icon></span>
+      <span class="title">Dachser <strong>AI</strong></span>
       @if (messages.length) {
         <button mat-icon-button type="button" (click)="clear()" title="New conversation" aria-label="New conversation">
           <mat-icon>restart_alt</mat-icon>
         </button>
       }
-      <button mat-icon-button type="button" (click)="toggle()" title="Close" aria-label="Close assistant">
+      <button mat-icon-button type="button" (click)="toggle()" title="Close" aria-label="Close Dachser AI">
         <mat-icon>close</mat-icon>
       </button>
     </header>
@@ -22,13 +22,13 @@
           }
         </div>
       } @empty {
-        <p class="intro">Ask about shipments, their incomes and costs, or profit and loss.</p>
+        <p class="intro">Ask Dachser AI about shipments, their incomes and costs, or profit and loss.</p>
         @for (suggestion of suggestions; track suggestion) {
           <button type="button" class="suggestion" (click)="ask(suggestion)">{{ suggestion }}</button>
         }
       }
       @if (sending) {
-        <div class="bubble typing" aria-label="The assistant is answering"><span></span><span></span><span></span></div>
+        <div class="bubble typing" aria-label="Dachser AI is answering"><span></span><span></span><span></span></div>
       }
       @if (errorMessage) {
         <div class="alert alert-danger" role="alert">
@@ -48,6 +48,7 @@
 }
 
 <button class="launcher" type="button" (click)="toggle()"
-        [attr.aria-label]="open ? 'Close assistant' : 'Open assistant'" [attr.aria-expanded]="open">
-  <mat-icon>{{ open ? 'close' : 'chat' }}</mat-icon>
+        [attr.aria-label]="open ? 'Close Dachser AI' : 'Open Dachser AI'" [attr.aria-expanded]="open"
+        [title]="open ? 'Close Dachser AI' : 'Ask Dachser AI'">
+  <mat-icon>{{ open ? 'close' : 'auto_awesome' }}</mat-icon>
 </button>
