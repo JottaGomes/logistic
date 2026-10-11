@@ -13,7 +13,7 @@
 
   <section class="panel">
     <h2>New shipment</h2>
-    <form [formGroup]="shipmentForm" (ngSubmit)="createShipment()" class="inline-form">
+    <form [formGroup]="shipmentForm" #shipmentFormRef="ngForm" (ngSubmit)="createShipment()" class="inline-form">
       <mat-form-field appearance="outline">
         <mat-label>Reference</mat-label>
         <input matInput formControlName="reference" placeholder="SHP-2026-0010" />
@@ -85,7 +85,7 @@
 
         <div class="column">
           <h3>Income</h3>
-          <form [formGroup]="incomeForm" (ngSubmit)="addIncome()" class="amount-form">
+          <form [formGroup]="incomeForm" #incomeFormRef="ngForm" (ngSubmit)="addIncome()" class="amount-form">
             <mat-form-field appearance="outline">
               <mat-label>Type</mat-label>
               <mat-select formControlName="type">
@@ -120,7 +120,7 @@
 
         <div class="column">
           <h3>Costs</h3>
-          <form [formGroup]="costForm" (ngSubmit)="addCost()" class="amount-form">
+          <form [formGroup]="costForm" #costFormRef="ngForm" (ngSubmit)="addCost()" class="amount-form">
             <mat-form-field appearance="outline">
               <mat-label>Type</mat-label>
               <mat-select formControlName="type">

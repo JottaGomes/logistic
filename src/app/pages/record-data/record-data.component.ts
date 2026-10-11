@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -37,6 +37,15 @@ type AmountKind = 'income' | 'cost';
   styleUrl: './record-data.component.css',
 })
 export class RecordDataComponent implements OnInit {
+
+  /**
+   * The form directives, needed to clear a form after a successful save.
+   * FormGroup.reset() empties the values but leaves the directive marked as
+   * submitted, and Angular Material then shows every empty required field in red.
+   */
+  @ViewChild('shipmentFormRef') shipmentFormRef?: FormGroupDirective;
+  @ViewChild('incomeFormRef') incomeFormRef?: FormGroupDirective;
+  @ViewChild('costFormRef') costFormRef?: FormGroupDirective;
 
   readonly incomeTypes = INCOME_TYPES;
   readonly costTypes = COST_TYPES;
@@ -138,7 +147,7 @@ export class RecordDataComponent implements OnInit {
     this.shipmentService.createShipment(reference, customer).subscribe({
       next: created => {
         this.saving = false;
-        this.shipmentForm.reset();
+        this.clear(this.shipmentForm, this.shipmentFormRef);
         this.successMessage = `Shipment ${created.reference} created`;
         this.loadShipments();
         this.select(created.reference);
@@ -151,18 +160,19 @@ export class RecordDataComponent implements OnInit {
   }
 
   addIncome(): void {
-    this.record(this.incomeForm, (reference, type, amount, description) =>
+    this.record(this.incomeForm, this.incomeFormRef, (reference, type, amount, description) =>
       this.shipmentService.recordIncome(reference, type, amount, description), 'Income recorded');
   }
 
   addCost(): void {
-    this.record(this.costForm, (reference, type, amount, description) =>
+    this.record(this.costForm, this.costFormRef, (reference, type, amount, description) =>
       this.shipmentService.recordCost(reference, type, amount, description), 'Cost recorded');
   }
 
   /** Both amount forms behave identically; only the endpoint differs. */
   private record(
     form: FormGroup,
+    formRef: FormGroupDirective | undefined,
     call: (reference: string, type: string, amount: number, description: string) => import('rxjs').Observable<ShipmentDetail>,
     success: string,
   ): void {
@@ -181,7 +191,7 @@ export class RecordDataComponent implements OnInit {
         this.saving = false;
         this.selected = detail;
         this.successMessage = success;
-        form.reset({ type, amount: null, description: '' });
+        this.clear(form, formRef, { type, amount: null, description: '' });
       },
       error: error => {
         this.saving = false;
@@ -244,6 +254,15 @@ export class RecordDataComponent implements OnInit {
         }
       },
     });
+  }
+
+  /** Empties a form after a save without leaving its required fields flagged as errors. */
+  private clear(form: FormGroup, formRef: FormGroupDirective | undefined, value?: object): void {
+    if (formRef) {
+      formRef.resetForm(value);
+    } else {
+      form.reset(value);
+    }
   }
 
   goCalculate(): void {

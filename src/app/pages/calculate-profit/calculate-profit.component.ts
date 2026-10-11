@@ -71,7 +71,7 @@ export class CalculateProfitComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadShipments();
+    this.loadShipments('', true);
     this.loadCalculations();
 
     // the shipment list is a server-side search, not a filter over a list we hold:
@@ -89,14 +89,19 @@ export class CalculateProfitComponent implements OnInit {
       });
   }
 
-  loadShipments(term = ''): void {
+  /**
+   * @param prefill select the first shipment when the field is empty. Only on the
+   *                first load: during a search an empty field means the user cleared
+   *                it, and refilling it would undo what they just typed.
+   */
+  loadShipments(term = '', prefill = false): void {
     this.shipmentService.findShipments(term).subscribe({
       next: shipments => {
         this.shipments = shipments;
 
         // land on a usable form rather than an empty one; the user changes it in
         // one click, and nothing is calculated until they ask for it
-        if (shipments.length && !this.form.value.shipmentReference) {
+        if (prefill && shipments.length && !this.form.value.shipmentReference) {
           this.form.patchValue({ shipmentReference: shipments[0].reference }, { emitEvent: false });
         }
       },

@@ -72,6 +72,21 @@ describe('RecordDataComponent', () => {
     expect(service.findShipment).toHaveBeenCalledWith('SHP-2');
   });
 
+  /** Submitting through the form marks it as submitted; clearing it afterwards must not leave red fields. */
+  it('clears the new-shipment form without flagging its empty fields as errors', () => {
+    service.createShipment.and.returnValue(of({ id: 2, reference: 'SHP-2', customer: 'Bosch' }));
+    component.shipmentForm.setValue({ reference: 'SHP-2', customer: 'Bosch' });
+
+    const form: HTMLFormElement = fixture.nativeElement.querySelector('form');
+    form.dispatchEvent(new Event('submit'));
+    fixture.detectChanges();
+
+    expect(service.createShipment).toHaveBeenCalled();
+    expect(component.shipmentForm.value).toEqual({ reference: null, customer: null });
+    expect(component.shipmentFormRef?.submitted).toBeFalse();
+    expect(form.querySelectorAll('.mat-form-field-invalid').length).toBe(0);
+  });
+
   it('reports a duplicate reference with the message the backend sent', () => {
     service.createShipment.and.returnValue(throwError(() => new HttpErrorResponse({
       status: 409,

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
@@ -131,4 +131,17 @@ describe('CalculateProfitComponent', () => {
 
     expect(fixture.nativeElement.textContent).toContain('No amounts changed since the calculation of');
   });
+
+  it('fills in the first shipment when the page opens', () => {
+    expect(component.form.value.shipmentReference).toBe('SHP-1');
+  });
+
+  /** Clearing the field searches with an empty term; that must not put the first shipment back. */
+  it('leaves the shipment field empty once the user clears it', fakeAsync(() => {
+    component.form.get('shipmentReference')!.setValue('');
+    tick(300);
+
+    expect(service.findShipments).toHaveBeenCalledWith('');
+    expect(component.form.value.shipmentReference).toBe('');
+  }));
 });
