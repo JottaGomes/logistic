@@ -36,7 +36,7 @@ http://localhost:4200
 npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-52 specs. With coverage:
+53 specs. With coverage:
 
 ```bash
 npm test -- --watch=false --browsers=ChromeHeadless --code-coverage
@@ -135,5 +135,5 @@ the backend locally. Point `apiUrl` at a reachable host to change that.
 | Source code that builds and serves | this repository, `npm start` |
 | Model / Components / Service / Form / Routing | `src/app/...` |
 | Frontend question answers | [FRONTEND_QUESTIONS.md](FRONTEND_QUESTIONS.md) |
-| Jasmine unit tests (optional) | 52 specs, `npm test` |
+| Jasmine unit tests (optional) | 53 specs, `npm test` |
 | Coverage report (optional) | `--code-coverage`, 86.5% statements |

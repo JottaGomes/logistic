@@ -121,4 +121,14 @@ describe('CalculateProfitComponent', () => {
     expect(component.result).toEqual(calculation);
     expect(service.calculate).not.toHaveBeenCalled();
   });
+
+  it('says so when nothing changed since the last calculation', () => {
+    service.calculate.and.returnValue(of({ ...calculation, created: false }));
+    component.form.setValue({ shipmentReference: 'SHP-1' });
+
+    component.onCalculate();
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).toContain('No amounts changed since the calculation of');
+  });
 });

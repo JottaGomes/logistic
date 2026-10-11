@@ -24,6 +24,11 @@ export interface ProfitCalculation {
   totalCosts: number;
   profitOrLoss: number;
   calculatedAt: string;
+  /**
+   * Only on a calculation request: false when nothing changed since the shipment's
+   * latest calculation, which is returned instead of storing a duplicate.
+   */
+  created?: boolean;
   incomes?: AmountLine[];
   costs?: AmountLine[];
 }

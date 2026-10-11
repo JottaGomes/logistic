@@ -36,6 +36,11 @@
   @if (errorMessage) {
     <div class="alert alert-danger" role="alert">{{ errorMessage }}</div>
   }
+  @if (result?.created === false) {
+    <div class="alert alert-success" role="status">
+      No amounts changed since the calculation of {{ result!.calculatedAt | date:'dd/MM/yyyy HH:mm' }}, so that result is shown and nothing new was stored.
+    </div>
+  }
 
   <!-- child component: receives the result, tells us when it is dismissed -->
   @if (result) {
