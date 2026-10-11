@@ -38,8 +38,8 @@
       }
     </div>
 
-    <form (ngSubmit)="ask()">
-      <input [formControl]="question" placeholder="Ask about a shipment…" aria-label="Your question" maxlength="4000" />
+    <form [formGroup]="form" (ngSubmit)="ask()">
+      <input formControlName="question" placeholder="Ask about a shipment…" aria-label="Your question" maxlength="4000" />
       <button mat-icon-button type="submit" [disabled]="question.invalid || sending" aria-label="Send">
         <mat-icon>send</mat-icon>
       </button>

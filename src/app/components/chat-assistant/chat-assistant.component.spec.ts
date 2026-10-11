@@ -68,4 +68,19 @@ describe('ChatAssistantComponent', () => {
     expect(component.messages.map(m => m.content)).toEqual(['Hello', 'Hi']);
     expect(component.errorMessage).toBe('');
   });
+
+  /** Pressing Enter submits the form; it must send the question, not reload the page. */
+  it('sends the question when the form is submitted, without a native page submit', () => {
+    service.ask.and.returnValue(of({ reply: 'Fine', toolsUsed: [] }));
+    component.toggle();
+    fixture.detectChanges();
+
+    component.question.setValue('How is SHP-1?');
+    const form: HTMLFormElement = fixture.nativeElement.querySelector('form');
+    const submit = new Event('submit', { cancelable: true });
+    form.dispatchEvent(submit);
+
+    expect(submit.defaultPrevented).toBeTrue();
+    expect(service.ask).toHaveBeenCalledWith([{ role: 'user', content: 'How is SHP-1?' }]);
+  });
 });

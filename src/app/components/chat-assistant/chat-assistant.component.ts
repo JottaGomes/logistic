@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -43,6 +43,12 @@ export class ChatAssistantComponent implements AfterViewChecked {
   messages: ChatMessage[] = [];
 
   question = new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(4000)] });
+
+  /**
+   * Bound with [formGroup] so Angular handles the submit. A form element without
+   * it falls back to the browser's native submit, and pressing Enter reloads the page.
+   */
+  form = new FormGroup({ question: this.question });
 
   private scrollPending = false;
 
