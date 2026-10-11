@@ -1,0 +1,53 @@
+@if (open) {
+  <section class="panel" role="dialog" aria-label="Shipment assistant">
+    <header>
+      <mat-icon>smart_toy</mat-icon>
+      <span class="title">Shipment assistant</span>
+      @if (messages.length) {
+        <button mat-icon-button type="button" (click)="clear()" title="New conversation" aria-label="New conversation">
+          <mat-icon>restart_alt</mat-icon>
+        </button>
+      }
+      <button mat-icon-button type="button" (click)="toggle()" title="Close" aria-label="Close assistant">
+        <mat-icon>close</mat-icon>
+      </button>
+    </header>
+
+    <div class="messages" #scroller aria-live="polite">
+      @for (message of messages; track $index) {
+        <div class="bubble" [class.user]="message.role === 'user'">
+          <p>{{ message.content }}</p>
+          @if (message.toolsUsed?.length) {
+            <small>From: {{ sources(message.toolsUsed) }}</small>
+          }
+        </div>
+      } @empty {
+        <p class="intro">Ask about shipments, their incomes and costs, or profit and loss.</p>
+        @for (suggestion of suggestions; track suggestion) {
+          <button type="button" class="suggestion" (click)="ask(suggestion)">{{ suggestion }}</button>
+        }
+      }
+      @if (sending) {
+        <div class="bubble typing" aria-label="The assistant is answering"><span></span><span></span><span></span></div>
+      }
+      @if (errorMessage) {
+        <div class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+          <button mat-button type="button" (click)="retry()">Retry</button>
+        </div>
+      }
+    </div>
+
+    <form (ngSubmit)="ask()">
+      <input [formControl]="question" placeholder="Ask about a shipment…" aria-label="Your question" maxlength="4000" />
+      <button mat-icon-button type="submit" [disabled]="question.invalid || sending" aria-label="Send">
+        <mat-icon>send</mat-icon>
+      </button>
+    </form>
+  </section>
+}
+
+<button class="launcher" type="button" (click)="toggle()"
+        [attr.aria-label]="open ? 'Close assistant' : 'Open assistant'" [attr.aria-expanded]="open">
+  <mat-icon>{{ open ? 'close' : 'chat' }}</mat-icon>
+</button>

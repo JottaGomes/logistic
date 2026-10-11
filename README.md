@@ -36,17 +36,17 @@ http://localhost:4200
 npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-47 specs. With coverage:
+52 specs. With coverage:
 
 ```bash
 npm test -- --watch=false --browsers=ChromeHeadless --code-coverage
 ```
 
 ```
-Statements   : 85.24% ( 208/244 )
-Branches     : 72.94% (  62/85 )
-Functions    : 73.11% (  68/93 )
-Lines        : 85%    ( 204/240 )
+Statements   : 86.5%  ( 250/289 )
+Branches     : 71.84% (  74/103 )
+Functions    : 75.7%  (  81/107 )
+Lines        : 86.21% ( 244/283 )
 ```
 
 The HTML report lands in `coverage/`.
@@ -106,6 +106,12 @@ correction carries the line's `version`; if someone else corrected it first, the
 backend answers `409`, the edit is dropped and the shipment reloaded, so the user
 sees the current amount instead of overwriting it.
 
+**Shipment assistant.** The chat button at the bottom right of every page opens
+an assistant that answers questions about shipments from the backend's data
+(`POST /api/chat`; the backend needs `GROQ_API_KEY`). Each answer names the data
+it came from. The conversation is kept in memory only, so shipment data does not
+end up in browser storage, and a failed answer can be retried with one click.
+
 The calculation screen is a parent/child pair on purpose: `CalculateProfitComponent` holds the
 state and talks to the service; `CalculationResultComponent` only renders what it
 is handed and emits when dismissed.
@@ -129,5 +135,5 @@ the backend locally. Point `apiUrl` at a reachable host to change that.
 | Source code that builds and serves | this repository, `npm start` |
 | Model / Components / Service / Form / Routing | `src/app/...` |
 | Frontend question answers | [FRONTEND_QUESTIONS.md](FRONTEND_QUESTIONS.md) |
-| Jasmine unit tests (optional) | 47 specs, `npm test` |
-| Coverage report (optional) | `--code-coverage`, 85.24% statements |
+| Jasmine unit tests (optional) | 52 specs, `npm test` |
+| Coverage report (optional) | `--code-coverage`, 86.5% statements |

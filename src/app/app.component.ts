@@ -5,11 +5,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { filter } from 'rxjs/operators';
 import { AuthService } from './services/auth.service';
 import { ThemeService } from './services/theme.service';
+import { ChatAssistantComponent } from './components/chat-assistant/chat-assistant.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatIconModule, MatButtonModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatIconModule, MatButtonModule, ChatAssistantComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
