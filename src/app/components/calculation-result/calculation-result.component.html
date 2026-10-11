@@ -13,11 +13,11 @@
   <div class="totals">
     <div class="total">
       <span class="label">Total Income</span>
-      <span class="value">{{ calculation.totalIncome | currency:'EUR' }}</span>
+      <span class="value income">{{ calculation.totalIncome | currency:'EUR' }}</span>
     </div>
     <div class="total">
       <span class="label">Total Costs</span>
-      <span class="value">{{ calculation.totalCosts | currency:'EUR' }}</span>
+      <span class="value cost">{{ calculation.totalCosts | currency:'EUR' }}</span>
     </div>
     <div class="total headline">
       <span class="label">{{ isProfit ? 'Profit' : 'Loss' }}</span>

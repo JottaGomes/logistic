@@ -155,12 +155,51 @@
   flex: 1 1 380px;
 }
 
+/* Each column is tinted with the colour of its effect on profit, so income and
+   costs are told apart at a glance and match the totals in the header. */
+.column {
+  border-top: 3px solid var(--accent);
+  padding-top: 10px;
+}
+
+.income {
+  --accent: var(--profit);
+}
+
+.cost {
+  --accent: var(--loss);
+}
+
+.running strong.income,
+.running strong.cost,
+.column .line-amount {
+  color: var(--accent);
+}
+
 .column h3 {
-  font-size: 0.72rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+
+.column h3 mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.column-sub {
+  font-size: 0.72rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
   color: var(--text-faint);
-  margin: 0 0 8px;
 }
 
 .line {

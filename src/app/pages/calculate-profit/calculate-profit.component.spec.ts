@@ -122,6 +122,14 @@ describe('CalculateProfitComponent', () => {
     expect(service.calculate).not.toHaveBeenCalled();
   });
 
+  it('points the shipment field at the calculation that was opened', () => {
+    component.form.setValue({ shipmentReference: 'SHP-OTHER' });
+
+    component.openCalculation(calculation);
+
+    expect(component.form.value.shipmentReference).toBe(calculation.shipmentReference);
+  });
+
   it('says so when nothing changed since the last calculation', () => {
     service.calculate.and.returnValue(of({ ...calculation, created: false }));
     component.form.setValue({ shipmentReference: 'SHP-1' });

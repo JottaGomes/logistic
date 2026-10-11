@@ -142,9 +142,14 @@ export class CalculateProfitComponent implements OnInit {
     this.loadCalculations();
   }
 
-  /** Re-opens a stored calculation. It carries totals but not the lines behind them. */
+  /**
+   * Re-opens a stored calculation. It carries totals but not the lines behind them.
+   * The shipment field follows the opened row, so pressing Calculate re-evaluates
+   * the shipment on screen rather than whichever one was last picked in the field.
+   */
   openCalculation(calculation: ProfitCalculation): void {
     this.result = calculation;
+    this.form.patchValue({ shipmentReference: calculation.shipmentReference });
   }
 
   clearSearch(): void {

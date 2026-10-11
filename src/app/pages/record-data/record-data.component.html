@@ -69,8 +69,8 @@
           <span class="customer">{{ detail.customer }}</span>
         </div>
         <div class="running">
-          <span>Income <strong>{{ detail.totalIncome | currency:'EUR' }}</strong></span>
-          <span>Costs <strong>{{ detail.totalCosts | currency:'EUR' }}</strong></span>
+          <span>Income <strong class="income">{{ detail.totalIncome | currency:'EUR' }}</strong></span>
+          <span>Costs <strong class="cost">{{ detail.totalCosts | currency:'EUR' }}</strong></span>
           <button mat-raised-button class="primary-btn" type="button" (click)="goCalculate()">
             Calculate profit
           </button>
@@ -83,8 +83,8 @@
 
       <div class="columns">
 
-        <div class="column">
-          <h3>Income</h3>
+        <div class="column income">
+          <h3><mat-icon>south_west</mat-icon> Income <span class="column-sub">money received</span></h3>
           <form [formGroup]="incomeForm" #incomeFormRef="ngForm" (ngSubmit)="addIncome()" class="amount-form">
             <mat-form-field appearance="outline">
               <mat-label>Type</mat-label>
@@ -118,8 +118,8 @@
           }
         </div>
 
-        <div class="column">
-          <h3>Costs</h3>
+        <div class="column cost">
+          <h3><mat-icon>north_east</mat-icon> Costs <span class="column-sub">money spent</span></h3>
           <form [formGroup]="costForm" #costFormRef="ngForm" (ngSubmit)="addCost()" class="amount-form">
             <mat-form-field appearance="outline">
               <mat-label>Type</mat-label>

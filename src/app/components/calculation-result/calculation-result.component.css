@@ -55,6 +55,16 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Income always reads as money in and costs as money out, whatever the
+   shipment's overall result; only the headline figure follows profit or loss. */
+.total .value.income {
+  color: var(--profit);
+}
+
+.total .value.cost {
+  color: var(--loss);
+}
+
 .total.headline .value {
   font-size: 1.5rem;
   font-weight: 600;
